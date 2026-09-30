@@ -26,8 +26,10 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=2
+current_page=4
 FILE_NAME_0=2530;C++;0;EUTF-8;1;1;0;%2Fhome%2Fluji%2FDocuments%2FINFO%20I%20%2FTP%20FIN%20DE%20AÑO%2Fencabezadogeneral.h;0;4
 FILE_NAME_1=960;C;0;EUTF-8;1;1;0;%2Fhome%2Fluji%2FDocuments%2FINFO%20I%20%2FTP%20FIN%20DE%20AÑO%2FMENU_3%2Fm3menu.c;0;4
 FILE_NAME_2=1384;C;0;EUTF-8;1;1;0;%2Fhome%2Fluji%2FDocuments%2FINFO%20I%20%2FTP%20FIN%20DE%20AÑO%2FmainPrincipal.c;0;4
-FILE_NAME_3=390;C++;0;EUTF-8;1;1;0;%2Fhome%2Fluji%2FDocuments%2FINFO%20I%20%2FTP%20FIN%20DE%20AÑO%2FMENU_3%2Fm3funciones.h;0;4
+FILE_NAME_3=451;C++;0;EUTF-8;1;1;0;%2Fhome%2Fluji%2FDocuments%2FINFO%20I%20%2FTP%20FIN%20DE%20AÑO%2FMENU_3%2Fm3funciones.h;0;4
+FILE_NAME_4=2448;C;0;EUTF-8;1;1;0;%2Fhome%2Fluji%2FDocuments%2FINFO%20I%20%2FTP%20FIN%20DE%20AÑO%2Ffunciones_principal.c;0;4
+FILE_NAME_5=1030;C++;0;EUTF-8;1;1;0;%2Fhome%2Fluji%2FDocuments%2FINFO%20I%20%2FTP%20FIN%20DE%20AÑO%2FMENU_1%2Fm1funciones.h;0;4
