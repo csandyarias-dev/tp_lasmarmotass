@@ -28,21 +28,26 @@
 */
 
 int main(void) {
-	int salir=OK, entrada=0;
+	int salir=OK, entrada=0, ultimo_id=0;
+	nodo_paciente_t * primero_pac = NULL;
+	nodo_responsable_t * primero_resp = NULL; 
+	nodo_turnos_t * primero_turnos = NULL;
+	
+	importar_desde_archivo(&ultimo_id, &primero_pac, &primero_resp, &primero_turnos);
 	
 	while(salir)	{
 		printf("Ingrese \n \t 1- Consultar informacion. \n \t 2- Agregar turno \n \t 3- Acceder al menu pacientes. \n \t 4- Acceder al menu responsables. \n \t 5- Acceder al menu configuracion. \n \t 6-Salir \n");
 		switch (entrada) {
 			case consultar_informacion:
-				menu1();
+				m1menu(&primero_pac, &primero_resp, &primero_turnos);
 			break;
 			
 			case agregar_turno:
-			
+				agregar_turno();
 			break;
 			
 			case menu_paciente: 
-			
+				m3menu(&ultimo_id, &primero_pac, &primero_resp, &primero_turnos)
 			break; 
 			
 			case menu_responsable:

@@ -103,5 +103,20 @@ typedef union {
 
 enum errores_generales{ERROR_MEMORIA=-2, ERROR_ARCHIVO, OK=1};
 enum menu_principal{consultar_informacion=1, agregar_turno, menu_paciente, menu_responsable, menu_configuracion, salir};	
+
+//----------------
+//-- Prototipos --
+//----------------
+
+/**
+	\fn     int importar_desde_archivo(int ultimo_id, nodo_paciente_t ** primero_pac, nodo_responsable_t **  primero_resp, nodo_turnos_t ** primero_turnos);
+	\brief  Se agrega un paciente a la lista
+	\author Grupo Las Marmotas
+	\date   2026.09.02
+	\param  int ultimo_id, nodo_paciente_t ** primero_pac, nodo_responsable_t **  primero_resp, nodo_turnos_t ** primero_turnos
+	\return int estado
+*/
+
+int importar_desde_archivo(int ultimo_id, nodo_paciente_t ** primero_pac, nodo_responsable_t **  primero_resp, nodo_turnos_t ** primero_turnos);
 	
 #endif	
