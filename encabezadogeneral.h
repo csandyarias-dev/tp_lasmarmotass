@@ -1,5 +1,22 @@
+/**
+	\file    encabezadogeneral.h
+	\brief   Contiene las estructuras comunes a todo el programa
+	\author  Grupo las marmotas
+	\date    2026.09.02
+	\version 1.0.0
+*/
+
 #ifndef ENCABEZADOGENERAL_H
 #define ENCABEZADOGENERAL_H
+
+//--------------
+//-- Includes --
+//--------------
+
+#include "MENU_1/m1funciones.h"
+#include "MENU_3/m3funciones.h"
+#include "MENU_4/m4funciones.h"
+#include "MENU_5/m5funciones.h"
 
 //-------------
 //-- Structs --
@@ -77,14 +94,14 @@ typedef struct {
 
 typedef union {
     unsigned int valor;   
-    bits_fecha_t bits; 
+    bits_fecha_t bits1; 
 } nfecha_t;
 
 //-------------
 //-- Enums --
 //-------------
 
-enum errores_generales{ERROR_MEMORIA=-2, ERROR_ARCHIVO=-1, OK};
-	
+enum errores_generales{ERROR_MEMORIA=-2, ERROR_ARCHIVO, OK=1};
+enum menu_principal{consultar_informacion=1, agregar_turno, menu_paciente, menu_responsable, menu_configuracion, salir};	
 	
 #endif	
