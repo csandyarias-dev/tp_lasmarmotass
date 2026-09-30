@@ -12,7 +12,7 @@ void cargar_pacientes_archivo(nodo_paciente_t ** lista, int *ultimoPacID) {
         fread(ultimoPacID, sizeof(int), 1, fp);
         
         while (fread(&pacAux, sizeof(paciente_t), 1, fp) == 1) { 
-            añadir_ordenado(lista, pacAux);
+            añadir_ordenado_p(lista, pacAux);
             cant_pacientes++; 
         }
         
@@ -29,11 +29,11 @@ void cargar_responsables_archivo(nodo_responsable_t ** lista) {
     // Abrimos el archivo en modo lectura binaria 
     fp = fopen("responsables.dat", "rb");
 
-    if (fp != NULL) {
+    if (fp != NsULL) {
         // fread(ultimoPacID, sizeof(int), 1, fp);
         
         while (fread(&respon_aux, sizeof(responsable_t), 1, fp) == 1) { 
-          //  añadir_ordenado(lista, pacAux); AÑADIR FUNCION LIZ
+          //  añadir_ordenado_r(lista, pacAux); AÑADIR FUNCION LIZ
             cant_responsables++; 
         }
         
@@ -54,7 +54,7 @@ void cargar_turnos_archivo(nodo_turnos_t ** lista) {
         // fread(ultimoPacID, sizeof(int), 1, fp);
         
         while (fread(&turnos_aux, sizeof(turnos_t), 1, fp) == 1) { 
-          //  añadir_ordenado(lista, pacAux); AÑADIR FUNCION AGREGAR TURNOS
+          //  añadir_ordenado_t(lista, pacAux); AÑADIR FUNCION AGREGAR TURNOS
             cant_turnos++; 
         }
         
@@ -87,6 +87,30 @@ void agregar_turno(nodo_turnos_t ** turnos) {
 	printf("Ingrese la hora formato 24hs de la siguiente forma HH:MM");
 	sscanf("%d:%d", &(nuevo.hora.bits.hora), &(nuevo.hora.bits.min));
 	
-	añadir_turno_ordenado(turnos, nuevo);
+	añadir_ordenado_t(turnos, nuevo);
 	
 	}
+	
+int añadir_ordenado_t(nodo_turnos_t ** lista, turnos_t nuevo){
+	nodo_turnos_t * agregando = NULL, *actual=NULL, * anterior= NULL; 
+	int estado=ERROR_MEMORIA;
+	
+	agregando = (nodo_turnos_t *) malloc(sizeof(nodo_turnos_t));
+	
+	if (nuevo!=NULL){
+		agregando->turnos=nuevo; 
+		
+		if (*lista != NULL){
+			while (actual!=NULL)&&(lugar==0){
+				if (turno)
+				
+			}
+			
+		}
+		else *lista = agregando; 
+	}
+		
+		
+	}
+	
+	

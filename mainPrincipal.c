@@ -11,7 +11,6 @@
 	Ejecución: 		./ejecutable
 */
 
-
 //--------------
 //-- Includes --
 //--------------
@@ -47,7 +46,7 @@ int main(void) {
 			break;
 			
 			case menu_paciente: 
-				m3menu(&ultimo_id, &primero_pac, &primero_resp, &primero_turnos)
+				m3menu(&ultimo_id, &primero_pac, &primero_resp, &primero_turnos);
 			break; 
 			
 			case menu_responsable:
@@ -56,7 +55,7 @@ int main(void) {
 			
 			case menu_configuracion:
 			
-			break 
+			break;
 			
 			case salir:
 			

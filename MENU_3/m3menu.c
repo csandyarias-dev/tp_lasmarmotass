@@ -23,8 +23,6 @@ enum m34{añadir=1, modificar, eliminar, volver};
 //-------------
 //-- Defines --
 //-------------
-//Acá poner los define.
-
 
 /**
 	\fn      <Prototipo de la función>
