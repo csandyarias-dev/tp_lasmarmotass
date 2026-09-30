@@ -32,47 +32,57 @@ enum OPCIONESM3{NOMBRE=1, FECHA_NACIMIENTO, ID_RESPONSABLE};
 	\brief  Se agrega un paciente a la lista
 	\author Grupo Las Marmotas
 	\date   2026.09.02
-	\param  void 
+	\param  nodo_paciente_t ** primero, int * ultimo_ID_utilizado
 	\return int estado
 */
-int agregarPaciente(nodo_paciente_t ** primero, int * ultimo_ID_utilizado);
+int agregar_paciente(nodo_paciente_t ** primero, int * ultimo_ID_utilizado);
 
 /**
-	\fn     int anadirordenado_p(nodo_paciente_t ** primero, paciente_t nuevo);
+	\fn     int anadir_ordenado(nodo_paciente_t ** primero, paciente_t nuevo);
 	\brief  Se añade a la lista el nuevo paciente 
 	\author Grupo Las Marmotas
 	\date   2026.09.02
-	\param  void 
+	\param  nodo_paciente_t ** primero, paciente_t nuevo
 	\return int estado
 */
-int anadirordenado_p(nodo_paciente_t ** primero, paciente_t nuevo);
+int anadir_ordenado(nodo_paciente_t ** primero, paciente_t nuevo);
 
 /**
 	\fn     int modificarPaciente(nodo_paciente_t ** primero);
 	\brief  Se modifica un paciente de la lista 
 	\author Grupo Las Marmotas
 	\date   2026.09.02
-	\param  void 
+	\param  nodo_paciente_t ** primero
 	\return int estado
 */
-int modificarPaciente(nodo_paciente_t ** primero);
+int modificar_paciente(nodo_paciente_t ** primero);
 
 /**
 	\fn     int modificarNodo(nodo_paciente_t ** elegido);
 	\brief  Se modifica un paciente de la lista 
 	\author Grupo Las Marmotas
 	\date   2026.09.02
-	\param  void 
+	\param  nodo_paciente_t ** elegido 
 	\return int estado
 */
-int modificarNodo(nodo_paciente_t ** elegido);
+int modificar_nodo(nodo_paciente_t ** elegido);
 
 /**
 	\fn     int eliminarPaciente(nodo_paciente_t ** primero);
 	\brief  Se elimina un paciente de la lista 
 	\author Grupo Las Marmotas
 	\date   2026.09.02
-	\param  void 
+	\param  nodo_paciente_t ** primero
 	\return int estado
 */
-int eliminarPaciente(nodo_paciente_t ** primero);
+int eliminar_paciente(nodo_paciente_t ** primero);
+
+/**
+	\fn     int eliminar_nodo(nodo_paciente_t ** lista, nodo_paciente_t * actual, nodo_paciente_t * anterior)
+	\brief  Se elimina un nodo de la lista
+	\author Grupo Las Marmotas
+	\date   2026.09.30
+	\param  nodo_paciente_t ** lista, nodo_paciente_t * actual, nodo_paciente_t * anterior
+	\return int estado
+*/
+int eliminar_nodo(nodo_paciente_t ** lista, nodo_paciente_t * actual, nodo_paciente_t * anterior); 

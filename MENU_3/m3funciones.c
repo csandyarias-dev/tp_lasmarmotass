@@ -20,7 +20,7 @@
 //-- Funciones --
 //---------------
 
-int agregarPaciente(nodo_paciente_t ** primero, int * ultimo_ID_utilizado) {
+int agregar_paciente(nodo_paciente_t ** primero, int * ultimo_ID_utilizado) {
     paciente_t cliente;
     int estado=ERROR_MEMORIA;
         
@@ -34,7 +34,7 @@ int agregarPaciente(nodo_paciente_t ** primero, int * ultimo_ID_utilizado) {
 
     cliente.pacID=(*ultimo_ID_utilizado)+1;
     
-    if (anadirordenado_c(primero, cliente) != OK) printf("ERROR AL AÑADIR"); 
+    if (anadir_ordenado(primero, cliente) != OK) printf("ERROR AL AÑADIR"); 
     else { 
         printf("añadido con exito");
         estado=OK;
@@ -44,7 +44,7 @@ int agregarPaciente(nodo_paciente_t ** primero, int * ultimo_ID_utilizado) {
     return estado; 
 }
 
-int anadirordenado_c(nodo_paciente_t ** lista, paciente_t cliente){
+int anadir_ordenado(nodo_paciente_t ** lista, paciente_t cliente){
     nodo_paciente_t * nuevo = NULL, * auxp = NULL, * anterior= NULL, *actual = NULL;
     int estado=ERROR_MEMORIA; 
     
@@ -79,7 +79,7 @@ int anadirordenado_c(nodo_paciente_t ** lista, paciente_t cliente){
     return estado; 
 }
 
-int modificarPaciente(nodo_paciente_t ** lista){
+int modificar_paciente(nodo_paciente_t ** lista){
     int opcion, idBuscado=0, encontrado=0; 
     char nombre[30]={0};
     nodo_paciente_t * anterior = NULL, * actual = NULL, * siguiente = NULL; 
@@ -108,7 +108,7 @@ int modificarPaciente(nodo_paciente_t ** lista){
                     encontrado = 1; 
                 }
                 else {
-                    modificarNodo(actual);
+                    modificar_nodo(actual);
                     encontrado = 1; 
                 }
             }
@@ -122,7 +122,7 @@ int modificarPaciente(nodo_paciente_t ** lista){
         actual=*lista; 
             if (actual->paciente.pacID==idBuscado){
                 encontrado=1; 
-                modificarNodo(actual);
+                modificar_nodo(actual);
             }
             else {
                 anterior=actual;
@@ -135,7 +135,7 @@ int modificarPaciente(nodo_paciente_t ** lista){
     return encontrado; 
 }
     
-int modificarNodo(nodo_paciente_t * actual){
+int modificar_nodo(nodo_paciente_t * actual){
     int opcion;
     char nombreN[30]={0};
     int estado = 0; 
@@ -171,18 +171,18 @@ int modificarNodo(nodo_paciente_t * actual){
     return estado; 
 }
 
-int eliminarPaciente (nodo_paciente_t ** primero) {
-	int opcion, idBuscado=0, encontrado=0; 
+int eliminar_paciente (nodo_paciente_t ** lista) {
+    int opcion, idBuscado=0, encontrado=0; 
     char nombre[30]={0};
     nodo_paciente_t * anterior = NULL, * actual = NULL, * siguiente = NULL; 
     
     do {
-        printf("Ingrese 1 para buscar el paciente por nombre y 2 para buscar por ID");
+        printf("Ingrese 1 para buscar el paciente por nombre y 2 para buscar por ID: ");
         scanf("%d", &opcion);
     } while((opcion!=1) && (opcion!=2));
     
     if (opcion==1){
-        scanf(" %[^\n]", nombre); 
+        scanf(" %[^\n]", nombre);
         actual=*lista;    
      
         while ((actual!=NULL) && (encontrado==0)){
@@ -194,14 +194,14 @@ int eliminarPaciente (nodo_paciente_t ** primero) {
             else {
                 siguiente=actual->sig; 
                 if ((siguiente!=NULL) && (strcmp(siguiente->paciente.nombre, nombre)==0)) {
-                    printf("Duplicado, debe modificar ingresando el ID\n");
-                    mostrar_paciente(actual);
-                    mostrar_paciente(siguiente);
+                    printf("Duplicado, debe eliminar ingresando el ID\n"); 
+                    mostrar_paciente(actual); 
+                    mostrar_paciente(siguiente); 
                     
                     encontrado = 1; 
                 }
                 else {
-                    modificarNodo(actual);
+                    eliminar_nodo(lista, actual, anterior); 
                     encontrado = 1; 
                 }
             }
@@ -209,7 +209,7 @@ int eliminarPaciente (nodo_paciente_t ** primero) {
         if (encontrado==0) printf("Paciente no encontrado\n"); 
     }
     else if (opcion==2){
-        printf("Ingrese ID");
+        printf("Ingrese ID: ");
         scanf("%d", &idBuscado); 
         
         actual=*lista; 
@@ -217,7 +217,7 @@ int eliminarPaciente (nodo_paciente_t ** primero) {
         while ((actual!=NULL) && (encontrado==0)){
             if (actual->paciente.pacID==idBuscado){
                 encontrado=1; 
-                eliminar_nodo(actual, anterior);
+                eliminar_nodo(lista, actual, anterior); 
             }
             else {
                 anterior=actual;
@@ -225,18 +225,24 @@ int eliminarPaciente (nodo_paciente_t ** primero) {
             }    
         }
         if (encontrado==0) printf("Paciente no encontrado\n");        
-	}
-		return encontrado; 
+    }
+    
+    return encontrado; 
 }
 
-int eliminar_nodo(nodo_paciente_t * actual, nodo_paciente_t * anterior) {
-	int estado;
-	
-	anterior->siguiente=actual->siguiente; 
-	free(actual);
-	actual=NULL; 
-
-	}	
+int eliminar_nodo(nodo_paciente_t ** lista, nodo_paciente_t * actual, nodo_paciente_t * anterior) {
+    int estado = ERROR; 
+    
+    if (actual != NULL) {
+        if (anterior == NULL) *lista = actual->sig;
+        else  anterior->sig = actual->sig; 
+        }
+        
+        free(actual);
+        estado = 0; 
+    }
+    return estado; 
+}	
 	
 void mostrar_paciente(nodo_paciente_t * actual) {
     if (actual != NULL) {
