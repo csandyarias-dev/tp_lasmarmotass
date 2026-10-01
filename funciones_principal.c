@@ -99,10 +99,13 @@ int añadir_ordenado_t(nodo_turnos_t ** lista, turnos_t nuevo){
 	
 	if (nuevo!=NULL){
 		agregando->turnos=nuevo; 
-		
+		actual=*lista; 
 		if (*lista != NULL){
 			while (actual!=NULL)&&(lugar==0){
-				if (turno)
+				if (nuevo.fecha.bits1.anio>=actual.fecha.bits1.anio) {
+					if (nuevo.fecha.bits1.anio>=actual.fecha.bits1)
+				}
+				
 				
 			}
 			
