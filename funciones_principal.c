@@ -116,4 +116,100 @@ int añadir_ordenado_t(nodo_turnos_t ** lista, turnos_t nuevo){
 		
 	}
 	
+void alarma_handler(int nsig) {
 	
+	flag_alarma=1;
+	signal(SIGALRM, alarma_handler); 
+		
+	}
+	
+int act_archivos(nodo_paciente_t ** pac_primero, nodo_responsable ** resp_primero, nodo_turnos_t ** turnos_primero){
+	// MUTEX ARCHIVOS LOCK
+	act_pacientes_archivos(pac_primero);
+	act_resp_archivos(resp_primero);
+	act_turnos_archivos(turnos_primero);
+	// MUTEX ARCHIVOS UNLOCK
+}
+
+act_pacientes_archivos(nodo_paciente_t ** primero){
+	
+	nodo_paciente_t * actual, * siguiente;
+	int id=0, estado=0;
+	
+	fp = fopen("pacientes.dat", "wb+"); 
+	
+	if (fp!=NULL){
+		
+		if (primero!=NULL) {
+			actual=*primero; 
+			while(actual->sig!=NULL)
+			{
+				if (id<actual->paciente.pacID) id=actual->paciente.pacID;
+				actual=actual->sig;				
+			}
+			fwrite(&id, sizeof(int), 1, fp); 
+			actual=*primero; 
+			while(actual->sig!=NULL) {
+				fwrite(actual, sizeof(nodo_paciente_t), 1, fp); 
+				actual=actual->sig;
+				estado++;
+				}
+			fclose(fp);
+		}
+		else estado=-1;
+	}
+	return estado;
+}
+
+act_resp_archivos(nodo_responsable_t ** primero){
+	
+	nodo_paciente_t * actual, * siguiente;
+	int id=0, estado=0;
+	
+	fp = fopen("responsables.dat", "wb+"); 
+	
+	if (fp!=NULL){
+		
+		if (primero!=NULL) {
+			actual=*primero; 
+			while(actual->sig!=NULL)
+			{
+				if (id<actual->responsable.responID) id=actual->responsable.responID;
+				actual=actual->sig;				
+			}
+			fwrite(&id, sizeof(int), 1, fp); 
+			actual=*primero; 
+			while(actual->sig!=NULL) {
+				fwrite(actual, sizeof(nodo_responsable_t), 1, fp); 
+				actual=actual->sig;
+				estado++;
+				}
+			fclose(fp);
+		}
+		else estado=-1;
+	}
+	return estado;
+}
+	
+act_turnos_archivos(nodo_turnos_t ** primero){
+	
+	nodo_turnos_t * actual;
+	int estado = 0;
+	
+	fp = fopen("turnos.dat", "wb+"); 
+	
+	if (fp!=NULL){
+		
+		if (primero!=NULL) {
+			actual=*primero; 
+			while(actual->sig!=NULL) {
+				fwrite(actual, sizeof(nodo_turnos_t), 1, fp); 
+				actual=actual->sig;
+				estado++;
+				}
+			fclose(fp);
+		}
+		else estado=-1;
+	}
+	return estado;
+}

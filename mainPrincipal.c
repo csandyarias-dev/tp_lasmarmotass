@@ -16,6 +16,13 @@
 //--------------
 #include "encabezadogeneral.h"
 
+//--------------
+//-- Defines --
+//--------------
+
+int flag_alarma=0;
+int flag_modificacion=0;
+
 /**
 	\fn      <Prototipo de la función>
 	\brief   <Función de la función>
@@ -32,9 +39,16 @@ int main(void) {
 	nodo_responsable_t * primero_resp = NULL; 
 	nodo_turnos_t * primero_turnos = NULL;
 	
+	alarm(120);
+	signal(SIGALRM, alarma_handler); 
+	
 	importar_desde_archivo(&ultimo_id, &primero_pac, &primero_resp, &primero_turnos);
 	
 	while(salir)	{
+		if (flag_alarma) {
+			act_archivos();
+			}
+		
 		printf("Ingrese \n \t 1- Consultar informacion. \n \t 2- Agregar turno \n \t 3- Acceder al menu pacientes. \n \t 4- Acceder al menu responsables. \n \t 5- Acceder al menu configuracion. \n \t 6-Salir \n");
 		switch (entrada) {
 			case consultar_informacion:
@@ -42,7 +56,7 @@ int main(void) {
 			break;
 			
 			case agregar_turno:
-				agregar_turno();
+				agregar_turno(&primero_turnos);
 			break;
 			
 			case menu_paciente: 
@@ -58,7 +72,9 @@ int main(void) {
 			break;
 			
 			case salir:
-			
+				salir=0;
+				// JOIN THREAD ARCHIVOS PARA QUE TERMINE DE CARGAR O PTHREADEXIT();
+				printf("Sesion finalizada");
 			break;
 			
 			default:
@@ -66,7 +82,8 @@ int main(void) {
 			break;
 			}
 		
-		
 		}
-	
+		// LIBERAR VARIABLES DINAMICAS 
+		// DESTROY MUTEX 
+		return 0;
 	}
