@@ -15,6 +15,7 @@
 //-- Includes --
 //--------------
 #include "encabezadogeneral.h"
+#include <stdio.h>
 
 //--------------
 //-- Defines --
@@ -64,7 +65,7 @@ int main(void) {
 			break; 
 			
 			case menu_responsable:
-			
+				
 			break;
 			
 			case menu_configuracion:
