@@ -14,7 +14,7 @@
 //-- includes --
 //--------------
 
-#include "encabezadogeneral.h"
+#include "../encabezadogeneral.h"
 
 
 //----------------

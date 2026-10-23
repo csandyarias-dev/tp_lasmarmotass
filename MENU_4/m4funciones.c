@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../encabezadogeneral.h"
 
 #define EXITO 0
 #define ERROR_MEM 1

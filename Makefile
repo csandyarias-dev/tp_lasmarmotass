@@ -1,44 +1,95 @@
-# --- Variables ---
-# Definimos el compilador
-CC = gcc
-# Flags de compilación: -c (solo compilar), -Wall (mostrar warnings), -I (incluir headers)
-CFLAGS = -c -Wall -I./inc
-# Flags de linkeo
-LDFLAGS = -Wall
+################################################################
+# AUTHOR INFORMATION #
+################################################################
 
-# --- Directorios ---
-SRC_DIR = src
-INC_DIR = inc
-OBJ_DIR = obj
-BIN_DIR = bin
+AUTHOR        = "Grupo_Las_Marmotas"
+CLASS         = "r1023"
+TP            = "Veterinaria"
+YEAR          = "2026"
 
-# Nombre del archivo ejecutable
-EJECUTABLE = $(BIN_DIR)/programa.out
+################################################################
+# COMPILER AND ARGUMENTS                                       #
+################################################################
 
-# --- Archivos ---
-# Busca automáticamente todos los archivos .c dentro de la carpeta src/
-SOURCES = $(wildcard $(SRC_DIR)/*.c)
-# Reemplaza la ruta src/ y extensión .c por obj/ y .o
-OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SOURCES))
+CC            = gcc
+CFLAGS        = -c -Wall -pthread -I.
+LDFLAGS       = -Wall -pthread
+LIBS          =
 
-# --- Reglas ---
-# La primera regla es la que se ejecuta por defecto si haces un simple "make"
-all: $(EJECUTABLE)
+################################################################
+# SOURCES, HEADERS, OBJECTS AND EXECUTABLE                     #
+################################################################
 
-# Regla para linkear y generar el ejecutable final
-# La macro $@ representa el nombre de la regla (el target)
-$(EJECUTABLE): $(OBJS)
-	$(CC) $(LDFLAGS) -o $@ $(OBJS)
+BUILD_DIR     = build
+BIN_DIR       = bin
+VPATH         = MENU_1 MENU_3 MENU_4 MENU_5 .
 
-# Regla genérica (usando el comodín %) para compilar los objetos
-# $< representa el primer archivo de las dependencias (el .c correspondiente)
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c Makefile
+SOURCES       = mainPrincipal.c funciones_principal.c m1_desarrollodefunciones.c m1menu.c m3funciones.c m3menu.c m4funciones.c m5funciones.c m5menu.c
+OBJS          = mainPrincipal.o funciones_principal.o m1_desarrollodefunciones.o m1menu.o m3funciones.o m3menu.o m4funciones.o m5funciones.o m5menu.o
+OBJS_PATHS    = $(addprefix $(BUILD_DIR)/, $(OBJS))
+
+EXEC          = veterinaria
+
+################################################################
+# TAR FILE INFORMATION                                         #
+################################################################
+
+FILE_NAME   = $(AUTHOR)-$(CLASS)-$(TP)-$(YEAR).tar.gz
+
+################################################################
+# MAKE TARGETS                                                 #
+################################################################
+
+.PHONY: all clean compress help
+
+all: $(EXEC)
+
+$(EXEC): $(OBJS_PATHS)
+	@echo ''
+	@echo '*****************************************************'
+	@echo '---> $(EXEC)'
+	@echo '---> Linking...'
+	mkdir -p $(BIN_DIR)
+	$(CC) $(OBJS_PATHS) $(LDFLAGS) $(LIBS) -o $(BIN_DIR)/$@
+	@echo '---> Linking Complete!'
+	@echo '*****************************************************'
+	@echo ''
+
+$(BUILD_DIR)/%.o: %.c Makefile
+	@echo ''
+	@echo '*****************************************************'
+	@echo '---> Compiling... $@ '
+	mkdir -p $(BUILD_DIR)
 	$(CC) $(CFLAGS) $< -o $@
+	@echo '---> Compiling Complete!'
+	@echo '*****************************************************'
+	@echo ''
 
-# Regla para limpiar los objetos y el ejecutable
 clean:
-	rm -f $(OBJ_DIR)/*.o
-	rm -f $(EJECUTABLE)
+	@echo ''
+	@echo '*****************************************************'
+	@echo '---> Cleaning...'
+	rm -rf $(BUILD_DIR) $(BIN_DIR)
+	@echo '---> Cleaning Complete!'
+	@echo '*****************************************************'
+	@echo ''
 
-# Regla para borrar todo y recompilar desde cero
-new: clean all
+compress: clean 
+	@echo ''
+	@echo '*****************************************************'
+	@echo '---> Packing...'
+	tar -zcvf $(FILE_NAME) MENU_1 MENU_3 MENU_4 MENU_5 *.c *.h Makefile
+	@echo '---> Packing Complete!'
+	@echo '*****************************************************'
+	@echo ''
+
+help:
+	@echo ''
+	@echo '*****************************************************'
+	@echo '  Uso:'
+	@echo '    make all:        Compiles and Links $(EXEC)'
+	@echo '    make clean:      Removes objects and executable'
+	@echo '    make compress:   Generates .tar.gz file'
+	@echo '    make help:       Shows help'
+	@echo '*****************************************************'
+	@echo ''

@@ -86,3 +86,5 @@ int eliminar_paciente(nodo_paciente_t ** primero);
 	\return int estado
 */
 int eliminar_nodo(nodo_paciente_t ** lista, nodo_paciente_t * actual, nodo_paciente_t * anterior); 
+
+#endif
