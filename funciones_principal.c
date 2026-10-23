@@ -1,6 +1,6 @@
 
 
-void cargar_pacientes_archivo(nodo_paciente_t ** lista, int *ultimoPacID) {
+int cargar_pacientes_archivo(nodo_paciente_t ** lista, int *ultimoPacID) {
     FILE *fp;
     paciente_t pacAux;
     int cant_pacientes=0;
@@ -21,7 +21,7 @@ void cargar_pacientes_archivo(nodo_paciente_t ** lista, int *ultimoPacID) {
     return cant_pacientes;
 }
 
-void cargar_responsables_archivo(nodo_responsable_t ** lista) {
+int cargar_responsables_archivo(nodo_responsable_t ** lista, int *ultimoResponID) {
     FILE *fp;
 	responsable_t respon_aux;
     int cant_responsables=0;
@@ -29,8 +29,8 @@ void cargar_responsables_archivo(nodo_responsable_t ** lista) {
     // Abrimos el archivo en modo lectura binaria 
     fp = fopen("responsables.dat", "rb");
 
-    if (fp != NsULL) {
-        // fread(ultimoPacID, sizeof(int), 1, fp);
+    if (fp != NULL) {
+        fread(ultimoResponID, sizeof(int), 1, fp);
         
         while (fread(&respon_aux, sizeof(responsable_t), 1, fp) == 1) { 
           //  añadir_ordenado_r(lista, pacAux); AÑADIR FUNCION LIZ
@@ -42,7 +42,7 @@ void cargar_responsables_archivo(nodo_responsable_t ** lista) {
     return cant_responsables;
 }
 
-void cargar_turnos_archivo(nodo_turnos_t ** lista) {
+int cargar_turnos_archivo(nodo_turnos_t ** lista) {
     FILE *fp;
     turnos_t turnos_aux;
     int cant_turnos=0;
@@ -51,11 +51,10 @@ void cargar_turnos_archivo(nodo_turnos_t ** lista) {
     fp = fopen("turnos.dat", "rb");
 
     if (fp != NULL) {
-        // fread(ultimoPacID, sizeof(int), 1, fp);
         
         while (fread(&turnos_aux, sizeof(turnos_t), 1, fp) == 1) { 
-          //  añadir_ordenado_t(lista, pacAux); AÑADIR FUNCION AGREGAR TURNOS
-            cant_turnos++; 
+           aniadir_ordenado_t(lista, turnos_aux); 
+           cant_turnos++; 
         }
         
         fclose(fp);
@@ -69,6 +68,7 @@ void agregar_turno(nodo_turnos_t ** turnos) {
 	nfecha_t fecha;
 	nhora_t hora;
 	paciente_t ** paciente; 
+	int dia, mes año, hora, min;
 	
 	printf("Ingrese el ID del paciente:");
 	scanf("%d", &id);
@@ -82,36 +82,81 @@ void agregar_turno(nodo_turnos_t ** turnos) {
 	nuevo.responID=(*paciente)->responID;
 	
 	printf("Ingrese la fecha siguiendo el siguiente formato: DIA-MES-AÑO");
-	sscanf("%d-%d-%d", &(nuevo.fecha.bits1.dia), &(nuevo.fecha.bits1.mes), &(nuevo.fecha.bits1.año));
+	sscanf("%d-%d-%d", &dia, &mes, &año);
+	nuevo.fecha.bits1.dia = dia;
+    nuevo.fecha.bits1.mes = mes;
+    nuevo.fecha.bits1.anio = anio;    
 	
 	printf("Ingrese la hora formato 24hs de la siguiente forma HH:MM");
-	sscanf("%d:%d", &(nuevo.hora.bits.hora), &(nuevo.hora.bits.min));
-	
-	añadir_ordenado_t(turnos, nuevo);
+	sscanf("%d:%d", &hora, &min);
+	nuevo.hora.bits.hora = hora;
+    nuevo.hora.bits.min = min;
+    
+    if (aniadir_ordenado_t(turnos, nuevo) == OK) estado = OK;
+    else estado = ERROR;
+    
+	return estado;
 	
 	}
 	
-int añadir_ordenado_t(nodo_turnos_t ** lista, turnos_t nuevo){
-	nodo_turnos_t * agregando = NULL, *actual=NULL, * anterior= NULL; 
-	int estado=ERROR_MEMORIA;
-	
-	agregando = (nodo_turnos_t *) malloc(sizeof(nodo_turnos_t));
-	
-	if (nuevo!=NULL){
-		agregando->turnos=nuevo; 
-		actual=*lista; 
-		if (*lista != NULL){
-			while (actual!=NULL)&&(lugar==0){
-				if (nuevo.fecha.bits1.anio>=actual.fecha.bits1.anio) {
-					if (nuevo.fecha.bits1.anio>=actual.fecha.bits1)
-				}
-				
-				
-			}
-			
-		}
-		else *lista = agregando; 
-	}
+// Devuelve > 0 si 'a' es mayor a 'b', < 0 si es menor, y 0 si son iguales 
+int comparar_fecha_hora(turnos_t a, turnos_t b) {
+    int resultado = 0;
+
+    if (a.fecha.bits1.anio != b.fecha.bits1.anio) {
+        resultado = a.fecha.bits1.anio - b.fecha.bits1.anio;
+    } else if (a.fecha.bits1.mes != b.fecha.bits1.mes) {
+        resultado = a.fecha.bits1.mes - b.fecha.bits1.mes;
+    } else if (a.fecha.bits1.dia != b.fecha.bits1.dia) {
+        resultado = a.fecha.bits1.dia - b.fecha.bits1.dia;
+    } else if (a.hora.bits.hora != b.hora.bits.hora) {
+        resultado = a.hora.bits.hora - b.hora.bits.hora;
+    } else {
+        resultado = a.hora.bits.min - b.hora.bits.min;
+    }
+
+    return resultado;
+}
+
+int aniadir_ordenado_t(nodo_turnos_t **lista, turnos_t nuevo) {
+    nodo_turnos_t *agregando = NULL, *actual = NULL, *anterior = NULL;
+    int estado = ERROR_MEMORIA;
+    int lugar = 0;
+
+    agregando = (nodo_turnos_t *) malloc(sizeof(nodo_turnos_t));
+
+    if (agregando != NULL) {
+        agregando->turnos = nuevo;
+        agregando->sig = NULL;
+        actual = *lista;
+
+        if (*lista != NULL) {
+            while ((actual != NULL) && (lugar == 0)) {
+                if (comparar_fecha_hora(nuevo, actual->turnos) >= 0) {
+                    anterior = actual;
+                    actual = actual->sig;
+                } 
+                else lugar = 1; // actualizo el flag
+                
+            }
+
+            if (anterior == NULL) {
+                agregando->sig = *lista;
+                *lista = agregando;
+            } else {
+            
+                agregando->sig = actual;
+                anterior->sig = agregando;
+            }
+        } 
+        else *lista = agregando;
+        estado = OK;
+        }
+        
+    }
+
+    return estado;
+}
 		
 		
 	}
@@ -131,85 +176,80 @@ int act_archivos(nodo_paciente_t ** pac_primero, nodo_responsable ** resp_primer
 	// MUTEX ARCHIVOS UNLOCK
 }
 
-act_pacientes_archivos(nodo_paciente_t ** primero){
-	
-	nodo_paciente_t * actual, * siguiente;
-	int id=0, estado=0;
-	
-	fp = fopen("pacientes.dat", "wb+"); 
-	
-	if (fp!=NULL){
-		
-		if (primero!=NULL) {
-			actual=*primero; 
-			while(actual->sig!=NULL)
-			{
-				if (id<actual->paciente.pacID) id=actual->paciente.pacID;
-				actual=actual->sig;				
-			}
-			fwrite(&id, sizeof(int), 1, fp); 
-			actual=*primero; 
-			while(actual->sig!=NULL) {
-				fwrite(actual, sizeof(nodo_paciente_t), 1, fp); 
-				actual=actual->sig;
-				estado++;
-				}
-			fclose(fp);
-		}
-		else estado=-1;
-	}
-	return estado;
+int act_pacientes_archivos(nodo_paciente_t ** primero) {
+    FILE *fp;
+    nodo_paciente_t * actual;
+    int id=0, estado=0;
+    
+    fp = fopen("dat/pacientes.dat", "wb+"); 
+    
+    if (fp != NULL) {
+        if (*primero != NULL) {
+            actual = *primero; 
+            while (actual != NULL) {
+                if (id < actual->paciente.pacID) id = actual->paciente.pacID;
+                actual = actual->sig;                
+            }
+            fwrite(&id, sizeof(int), 1, fp); 
+            actual = *primero; 
+            while (actual != NULL) {
+                fwrite(&(actual->paciente), sizeof(paciente_t), 1, fp); 
+                actual = actual->sig;
+                estado++;
+            }
+        }
+        else estado = ERROR;
+        fclose(fp);
+    }
+    return estado;
 }
 
-act_resp_archivos(nodo_responsable_t ** primero){
-	
-	nodo_paciente_t * actual, * siguiente;
-	int id=0, estado=0;
-	
-	fp = fopen("responsables.dat", "wb+"); 
-	
-	if (fp!=NULL){
-		
-		if (primero!=NULL) {
-			actual=*primero; 
-			while(actual->sig!=NULL)
-			{
-				if (id<actual->responsable.responID) id=actual->responsable.responID;
-				actual=actual->sig;				
-			}
-			fwrite(&id, sizeof(int), 1, fp); 
-			actual=*primero; 
-			while(actual->sig!=NULL) {
-				fwrite(actual, sizeof(nodo_responsable_t), 1, fp); 
-				actual=actual->sig;
-				estado++;
-				}
-			fclose(fp);
-		}
-		else estado=-1;
-	}
-	return estado;
+int act_resp_archivos(nodo_responsable_t ** primero) {
+    FILE *fp;
+    nodo_responsable_t * actual;
+    int id=0, estado=0;
+    
+    fp = fopen("dat/responsables.dat", "wb+"); 
+    
+    if (fp != NULL) {
+        if (*primero != NULL) {
+            actual = *primero; 
+            while (actual != NULL) {
+                if (id < actual->responsable.responID) id = actual->responsable.responID;
+                actual = actual->sig;                
+            }
+            fwrite(&id, sizeof(int), 1, fp); 
+            actual = *primero; 
+            while (actual != NULL) {
+                fwrite(&(actual->responsable), sizeof(responsable_t), 1, fp); 
+                actual = actual->sig;
+                estado++;
+            }
+        }
+        else estado = ERROR;
+        fclose(fp);
+    }
+    return estado;
 }
-	
-act_turnos_archivos(nodo_turnos_t ** primero){
-	
-	nodo_turnos_t * actual;
-	int estado = 0;
-	
-	fp = fopen("turnos.dat", "wb+"); 
-	
-	if (fp!=NULL){
-		
-		if (primero!=NULL) {
-			actual=*primero; 
-			while(actual->sig!=NULL) {
-				fwrite(actual, sizeof(nodo_turnos_t), 1, fp); 
-				actual=actual->sig;
-				estado++;
-				}
-			fclose(fp);
-		}
-		else estado=-1;
-	}
-	return estado;
+    
+int act_turnos_archivos(nodo_turnos_t ** primero) {
+    FILE *fp;
+    nodo_turnos_t * actual;
+    int estado = 0;
+    
+    fp = fopen("dat/turnos.dat", "wb+"); 
+    
+    if (fp != NULL) {
+        if (*primero != NULL) {
+            actual = *primero; 
+            while (actual != NULL) {
+                fwrite(&(actual->turnos), sizeof(turnos_t), 1, fp); 
+                actual = actual->sig;
+                estado++;
+            }
+        }
+        else estado = ERROR;
+        fclose(fp);
+    }
+    return estado;
 }

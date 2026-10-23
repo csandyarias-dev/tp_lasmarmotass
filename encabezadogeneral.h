@@ -18,6 +18,12 @@
 #include "MENU_4/m4funciones.h"
 #include "MENU_5/m5funciones.h"
 
+//--------------
+//-- Defines --
+//--------------
+
+extern int flag_alarma;
+
 //-------------
 //-- Structs --
 //-------------
