@@ -36,7 +36,8 @@ int flag_modificacion=0;
 	\return  <Lo que retorna>
 */
 
-int main(void) {
+int main(int cant char * arg[]) {
+	
 	int salir=OK, entrada=0, ultimo_id=0;
 	nodo_paciente_t * primero_pac = NULL;
 	nodo_responsable_t * primero_resp = NULL; 

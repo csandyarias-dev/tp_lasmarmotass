@@ -99,7 +99,6 @@ void agregar_turno(nodo_turnos_t ** turnos) {
 	
 	}
 	
-// Devuelve > 0 si 'a' es mayor a 'b', < 0 si es menor, y 0 si son iguales 
 int comparar_fecha_hora(turnos_t a, turnos_t b) {
     int resultado = 0;
 
@@ -181,7 +180,7 @@ int act_pacientes_archivos(nodo_paciente_t ** primero) {
     nodo_paciente_t * actual;
     int id=0, estado=0;
     
-    fp = fopen("dat/pacientes.dat", "wb+"); 
+    fp = fopen("dat/pacientes.dat", "wb+");  // DEFINE NOMBRE ARCHIVO
     
     if (fp != NULL) {
         if (*primero != NULL) {
