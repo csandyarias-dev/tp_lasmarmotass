@@ -679,7 +679,7 @@ void ConsultarResponsablePorID_Menu1(nodo_responsable_t *lista_resp, nodo_respon
 	\param  Responsable_encontrado: guarda el primer responsable encontrado
 	\return No retorna
 */
-void ConsultarResponsablePorNombre_Menu(nodo_responsable_t *lista_resp, nodo_responsable_t **Responsable_encontrado){
+void ConsultarResponsablePorNombre_Menu1(nodo_responsable_t *lista_resp, nodo_responsable_t **Responsable_encontrado){
     int resultado_funcion = 0;
     char nombre_ingresado[MAX_LETRAS_NOMBRE];
 
@@ -785,7 +785,7 @@ void ConsultarTurnosPorResponsable_Menu1(nodo_responsable_t *lista_resp, nodo_tu
 	\param  turnos_encontrados: vector dinamico con los turnos encontrados
 	\return No retorna
 */
-void ConsultarTurnosPorFecha_Menu(nodo_turnos_t *lista_turnos, nodo_turnos_t ***turnos_encontrados){
+void ConsultarTurnosPorFecha_Menu1(nodo_turnos_t *lista_turnos, nodo_turnos_t ***turnos_encontrados){
     nfecha_t fecha_ingresada;
     char fecha_texto[MAX_CARACTERES_FECHA];
     int dia = 0, mes = 0, anio = 0, resultado_funcion = 0;

@@ -94,7 +94,7 @@ static void opcion_responsable_id(nodo_paciente_t *lista_pac, nodo_responsable_t
 static void opcion_responsable_nombre(nodo_paciente_t *lista_pac, nodo_responsable_t *lista_resp, nodo_turnos_t *lista_turnos){
 	nodo_responsable_t *responsable_encontrado = NULL;
 
-	ConsultarResponsablePorNombre_Menu(lista_resp, &responsable_encontrado);
+	ConsultarResponsablePorNombre_Menu1(lista_resp, &responsable_encontrado);
 }
 
 
@@ -155,7 +155,7 @@ static void opcion_turnos_responsables(nodo_paciente_t *lista_pac, nodo_responsa
 static void opcion_turnos_fecha(nodo_paciente_t *lista_pac, nodo_responsable_t *lista_resp, nodo_turnos_t *lista_turnos){
 	nodo_turnos_t **turnos_encontrados = NULL;
 
-	ConsultarTurnosPorFecha_Menu(lista_turnos, &turnos_encontrados);
+	ConsultarTurnosPorFecha_Menu1(lista_turnos, &turnos_encontrados);
 
 	// El vector dinamico no se usa despues de mostrar los turnos, se libera
 	if (turnos_encontrados != NULL) {
