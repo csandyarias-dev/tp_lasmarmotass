@@ -17,6 +17,14 @@
 #include "../encabezadogeneral.h"
 
 //--------------
+//-- Defines --
+//--------------
+
+#define MOSTRAR_TIPOS 1 
+#define BORRAR_TIPO 4
+#define VOLVER_MENU5 5  
+
+//--------------
 //-- includes --
 //--------------
 typedef void (*p_menu5_t)(tipopac_t **, int *, int *);

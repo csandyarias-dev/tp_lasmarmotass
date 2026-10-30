@@ -82,7 +82,7 @@ void mostrar_tipos_animales(tipopac_t **vector_tipos, int *cant_tipos, int *ulti
                 free(nuevo_animal);
              }
             else{
-                *vector_tipos = vector_aux;
+                *vector_tipos = *vector_aux;
                 vector_tipos[*cant_tipos] = nuevo_animal;
                 (*cant_tipos) ++;
 
@@ -182,7 +182,7 @@ void mostrar_tipos_animales(tipopac_t **vector_tipos, int *cant_tipos, int *ulti
                 printf("No se puedo reducir la memoria\n");
             }
             else{
-                *vector_tipos = vector_aux;
+                *vector_tipos = *vector_aux;
                 (*cant_tipos) --;
                 printf("El animal con ID %d se borro \n", id_buscado);
             }
@@ -192,7 +192,7 @@ void mostrar_tipos_animales(tipopac_t **vector_tipos, int *cant_tipos, int *ulti
     }
 }
 
-    void volver_menu_principal(){
+    void volver_menu_principal(tipopac_t **vector_tipos, int *cant_tipos, int *ultimo_tipoID){
         printf("Regresando al menu principal\n");
         return;
     }
