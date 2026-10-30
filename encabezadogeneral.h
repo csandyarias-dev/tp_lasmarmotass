@@ -100,9 +100,31 @@ typedef struct nodo_turnos{
 //-- Enums --
 //-------------
 
-enum ERRORES_GENERALES{ERROR_MEMORIA=-2, ERROR_ARCHIVO, OK=1};
-enum MENU_PRINCIPAL{CONSULTAR_INFORMACION=1, AGREGAR_TURNO, MENU_PACIENTE, MENU_RESPONSABLE, MENU_CONFIGURACION, SALIR};
-enum OPCIONES_MENU4 {OPCION_AGREGAR = 1, OPCION_MODIFICAR, OPCION_ELIMINAR, OPCION_VOLVER};
+enum ERRORES_GENERALES{ERROR=-3, ERROR_MEMORIA, ERROR_ARCHIVO, OK=1};
+
+//-------------
+//-- Defines --
+//-------------
+
+#define CONSULTAR_INFORMACION 1
+#define MENU_CONFIGURACION 5
+#define SALIR 6
+
+//-----------------------------------------
+//-- typedef puntero a funcion principal --
+//-----------------------------------------
+
+typedef int (*puntero_menu_principal_t)(int *, int *, nodo_paciente_t **, nodo_responsable_t **, nodo_turnos_t **, tipopac_t **, int *, int *);
+
+//-------------------------------
+//-- prototipos de los 5 menus --
+//-------------------------------
+
+int m1menu(int * u_pac, int * u_resp, nodo_paciente_t ** pac, nodo_responsable_t ** resp, nodo_turnos_t ** tur, tipopac_t ** tipos, int * cant_t, int * u_tipo);
+int agregar_turno(int * u_pac, int * u_resp, nodo_paciente_t ** pac, nodo_responsable_t ** resp, nodo_turnos_t ** tur, tipopac_t ** tipos, int * cant_t, int * u_tipo);
+int m3menu(int * u_pac, int * u_resp, nodo_paciente_t ** pac, nodo_responsable_t ** resp, nodo_turnos_t ** tur, tipopac_t ** tipos, int * cant_t, int * u_tipo);
+int m4menu(int * u_pac, int * u_resp, nodo_paciente_t ** pac, nodo_responsable_t ** resp, nodo_turnos_t ** tur, tipopac_t ** tipos, int * cant_t, int * u_tipo);
+int m5menu(int * u_pac, int * u_resp, nodo_paciente_t ** pac, nodo_responsable_t ** resp, nodo_turnos_t ** tur, tipopac_t ** tipos, int * cant_t, int * u_tipo);
 
 //--------------
 //-- Includes --
@@ -150,26 +172,129 @@ int cargar_responsables_archivo(nodo_responsable_t ** lista, int *ultimoResponID
 */
 int cargar_turnos_archivo(nodo_turnos_t ** lista);
 
+/**
+	\fn      cargar_tipos_archivo(tipopac_t ** vector_tipos, int * cant_tipos, int * ultimo_tipoID)
+	\brief   actualiza el vector dinamico de tipos desde el archivo
+	\author  <Apellido y Nombre (mail)>
+	\date    <Año.Mes.Día>
+	\param   tipopac_t ** vector_tipos, int * cant_tipos, int * ultimo_tipoID
+	\return  int tipos_cargados
+*/
+
+int cargar_tipos_archivo(tipopac_t ** vector_tipos, int * cant_tipos, int * ultimo_tipoID);
 
 /**
-	\fn     void agregar_turno(nodo_turnos_t ** turnos);
-	\brief  Se agrega el turno a la lista
-	\author Grupo Las Marmotas
-	\date   2026.09.02
-	\param  int ultimo_id, nodo_paciente_t ** primero_pac, nodo_responsable_t **  primero_resp, nodo_turnos_t ** primero_turnos
-	\return int estado
+	\fn      importar_desde_archivo(int * ultimo_id_pac, int * ultimo_id_resp, nodo_paciente_t ** primero_pac, nodo_responsable_t ** primero_resp, nodo_turnos_t ** primero_turnos)
+	\brief   importa todos los datos de los distintos archivos
+	\author  <Apellido y Nombre (mail)>
+	\date    <Año.Mes.Día>
+	\param   tipopac_t ** vector_tipos, int * cant_tipos, int * ultimo_tipoID
+	\return  int tipos_cargados
 */
-void agregar_turno(nodo_turnos_t ** turnos);
+
+
+int importar_desde_archivo(int * ultimo_id_pac, int * ultimo_id_resp, nodo_paciente_t ** primero_pac, nodo_responsable_t ** primero_resp, nodo_turnos_t ** primero_turnos, tipopac_t ** vector_tipos, int * cant_tipos, int * ultimo_id_tipo);
+ 
+
+/**
+	\fn      int agregar_turno(int * u_pac, int * u_resp, nodo_paciente_t ** pac, nodo_responsable_t ** resp, nodo_turnos_t ** turnos, tipopac_t ** tipos, int * cant_t, int * u_tipo)
+	\brief   agrega un turno
+	\author  <Apellido y Nombre (mail)>
+	\date    <Año.Mes.Día>
+	\param   int * u_pac, int * u_resp, nodo_paciente_t ** pac, nodo_responsable_t ** resp, nodo_turnos_t ** turnos, tipopac_t ** tipos, int * cant_t, int * u_tipo
+	\return  int estado
+*/
+
+int agregar_turno(int * u_pac, int * u_resp, nodo_paciente_t ** pac, nodo_responsable_t ** resp, nodo_turnos_t ** turnos, tipopac_t ** tipos, int * cant_t, int * u_tipo);
+
+/**
+	\fn      int comparar_fecha_hora(turnos_t a, turnos_t b)
+	\brief   comparar fecha y hora (desendentemente)
+	\author  <Apellido y Nombre (mail)>
+	\date    <Año.Mes.Día>
+	\param   turnos_t a, turnos_t b
+	\return  int resultado
+*/
+
+int comparar_fecha_hora(turnos_t a, turnos_t b);
+
+/**
+	\fn      int aniadir_ordenado_t(nodo_turnos_t **lista, turnos_t nuevo)
+	\brief   añade un turno de forma ordenada
+	\author  <Apellido y Nombre (mail)>
+	\date    <Año.Mes.Día>
+	\param   nodo_turnos_t **lista, turnos_t nuevo
+	\return  int estado
+*/	
+
+int aniadir_ordenado_t(nodo_turnos_t **lista, turnos_t nuevo);
+
+	/**
+	\fn    	 void alarma_handler(int nsig)
+	\brief   setea la flag de actualizacion de archivos en 1
+	\author  <Apellido y Nombre (mail)>
+	\date    <Año.Mes.Día>
+	\param   int nsig
+	\return  void
+*/
+
+void alarma_handler(int nsig);
+
 
 
 /**
-	\fn     int importar_desde_archivo(int ultimo_id, nodo_paciente_t ** primero_pac, nodo_responsable_t **  primero_resp, nodo_turnos_t ** primero_turnos);
-	\brief  Se agrega un paciente a la lista
-	\author Grupo Las Marmotas
-	\date   2026.09.02
-	\param  int ultimo_id, nodo_paciente_t ** primero_pac, nodo_responsable_t **  primero_resp, nodo_turnos_t ** primero_turnos
-	\return int estado
+	\fn    	 int act_archivos(nodo_paciente_t ** pac_primero, nodo_responsable_t ** resp_primero, nodo_turnos_t ** turnos_primero, tipopac_t * vector_tipos, int cant_tipos, int ultimo_id_tipo) 
+	\brief   actualiza los archivos con los datos actuales
+	\author  <Apellido y Nombre (mail)>
+	\date    <Año.Mes.Día>
+	\param   nodo_turnos_t **lista, turnos_t nuevo
+	\return  int estado
 */
-int importar_desde_archivo(int * ultimo_id, nodo_paciente_t ** primero_pac, nodo_responsable_t **  primero_resp, nodo_turnos_t ** primero_turnos);
+	
+int act_archivos(nodo_paciente_t ** pac_primero, nodo_responsable_t ** resp_primero, nodo_turnos_t ** turnos_primero, tipopac_t * vector_tipos, int cant_tipos, int ultimo_id_tipo);
+
+/**
+	\fn    	 int act_pacientes_archivos(nodo_paciente_t ** primero) 
+	\brief   actualiza el archivo pacientes.dat
+	\author  <Apellido y Nombre (mail)>
+	\date    <Año.Mes.Día>
+	\param   nodo_paciente_t ** primero
+	\return  int estado
+*/
+
+int act_pacientes_archivos(nodo_paciente_t ** primero);
+
+/**
+	\fn    	 int act_resp_archivos(nodo_responsable_t ** primero)
+	\brief   actualiza el archivo responsables.dat
+	\author  <Apellido y Nombre (mail)>
+	\date    <Año.Mes.Día>
+	\param   nodo_responsable_t ** primero
+	\return  int estado
+*/
+
+int act_resp_archivos(nodo_responsable_t ** primero);
+
+/**
+	\fn    	 int act_turnos_archivos(nodo_turnos_t ** primero)
+	\brief   actualiza el archivo turnos.dat
+	\author  <Apellido y Nombre (mail)>
+	\date    <Año.Mes.Día>
+	\param   nodo_responsable_t ** primero
+	\return  int estado
+*/
+    
+int act_turnos_archivos(nodo_turnos_t ** primero);
+
+/**
+	\fn    	 int act_tipos_archivos(tipopac_t * vector_tipos, int cant_tipos, int ultimo_tipoID)
+	\brief   actualiza el archivo tipospac.lst
+	\author  <Apellido y Nombre (mail)>
+	\date    <Año.Mes.Día>
+	\param   tipopac_t * vector_tipos, int cant_tipos, int ultimo_tipoID
+	\return  int estado
+*/
+
+int act_tipos_archivos(tipopac_t * vector_tipos, int cant_tipos, int ultimo_tipoID);
 	
 #endif	

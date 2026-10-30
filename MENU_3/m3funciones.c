@@ -34,7 +34,7 @@ int agregar_paciente(nodo_paciente_t ** primero, int * ultimo_ID_utilizado) {
 
     cliente.pacID=(*ultimo_ID_utilizado)+1;
     
-    if (anadir_ordenado(primero, cliente) != OK) printf("ERROR AL AÑADIR"); 
+    if (anadir_ordenado_p(primero, cliente) != OK) printf("ERROR AL AÑADIR"); 
     else { 
         printf("añadido con exito");
         estado=OK;
@@ -44,7 +44,7 @@ int agregar_paciente(nodo_paciente_t ** primero, int * ultimo_ID_utilizado) {
     return estado; 
 }
 
-int anadir_ordenado(nodo_paciente_t ** lista, paciente_t cliente){
+int anadir_ordenado_p(nodo_paciente_t ** lista, paciente_t cliente){
     nodo_paciente_t * nuevo = NULL, * auxp = NULL, * anterior= NULL, *actual = NULL;
     int estado=ERROR_MEMORIA; 
     
@@ -79,7 +79,7 @@ int anadir_ordenado(nodo_paciente_t ** lista, paciente_t cliente){
     return estado; 
 }
 
-int modificar_paciente(nodo_paciente_t ** lista){
+int modificar_paciente(nodo_paciente_t ** lista, int * ultimo_id){
     int opcion, idBuscado=0, encontrado=0; 
     char nombre[30]={0};
     nodo_paciente_t * anterior = NULL, * actual = NULL, * siguiente = NULL; 
@@ -171,7 +171,7 @@ int modificar_nodo(nodo_paciente_t * actual){
     return estado; 
 }
 
-int eliminar_paciente (nodo_paciente_t ** lista) {
+int eliminar_paciente (nodo_paciente_t ** lista, int * id_ultimo) {
     int opcion, idBuscado=0, encontrado=0; 
     char nombre[30]={0};
     nodo_paciente_t * anterior = NULL, * actual = NULL, * siguiente = NULL; 

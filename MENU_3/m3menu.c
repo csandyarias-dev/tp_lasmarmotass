@@ -34,36 +34,27 @@ enum m34{añadir=1, modificar, eliminar, volver};
 	\return  <Lo que retorna>
 */
 
+int m3menu(int * u_pac, int * u_resp, nodo_paciente_t ** pac, nodo_responsable_t ** resp, nodo_turnos_t ** tur, tipopac_t ** tipos, int * cant_t, int * u_tipo) {
+    int opcion = 0;
+    int loop = OK;
 
-void menu3(nodo_paciente_t ** lista, int ultimo_ID){
-	int opcion=0;
-	int loop=OK;
+    p_menu3_t acciones_m3[3] = {
+        agregarPaciente,
+        modificarPaciente,
+        eliminarPaciente
+    };
 	
-	while (loop) {
-		printf("Ingrese \n \t 1- Añadir paciente \n \t 2- Modificar paciente \n \t 3- Eliminar paciente \n \t 4 Volver");
-		scanf("%d", &opcion);
+    while (loop) {
+        printf("\nIngrese:\n\t 1- Añadir paciente\n\t 2- Modificar paciente\n\t 3- Eliminar paciente\n\t 4- Volver\nOpcion: ");
+        scanf("%d", &opcion);
 		
-		switch (opcion) {
-			case añadir: 
-				añadir_paciente(lista, ultimo_ID);
-			break;
-			
-			case modificar: 
-				modificar_paciente(lista);
-			break; 
-			
-			case eliminar:
-				eliminar_paciente(lista);
-			break;		
-			
-			case volver: 
-			loop=0;
-			break;
-			
-			default: 
-				printf("Opcion invalida, intente nuevamente");
-		
-			}
-		}
-	
-	}
+        if (opcion >= OPCION_AGREGAR && opcion <= OPCION_ELIMINAR) {
+            acciones_m3[opcion - 1](pac, u_pac);
+        } else if (opcion == OPCION_VOLVER) {
+            loop = 0;
+        } else {
+            printf("Opcion invalida, intente nuevamente.\n");
+        }
+    }
+    return OK;
+}
