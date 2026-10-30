@@ -73,7 +73,7 @@ int agregar_responsable(nodo_responsable_t ** primero, int * ultimo_ID_utilizado
     return estado;
 }
 
-int modificarResponsable(nodo_responsable_t ** primero) {
+int modificarResponsable(nodo_responsable_t ** primero, int * ultimo_ID_utilizado) {
     nodo_responsable_t * actual = NULL;
     int opcion = 0, id_buscado = 0, coincidencias = 0, estado = ERROR_MEM;
     char nombre_buscado[MAX_STR] = {0};
@@ -114,7 +114,7 @@ int modificarResponsable(nodo_responsable_t ** primero) {
     return estado;
 }
 
-int eliminarResponsable(nodo_responsable_t ** primero) {
+int eliminarResponsable(nodo_responsable_t ** primero, int * ultimo_ID_utilizado) {
     nodo_responsable_t * actual = NULL;
     nodo_responsable_t * anterior = NULL;
     int id_buscado = 0, estado = ERROR_MEM;

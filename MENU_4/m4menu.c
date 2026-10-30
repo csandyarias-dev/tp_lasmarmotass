@@ -10,33 +10,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void menu_opcion_agregar(nodo_responsable_t ** lista, int * id) {
-    agregar_responsable(lista, id);
-}
-
-void menu_opcion_modificar(nodo_responsable_t ** lista, int * id) {
-    modificarResponsable(lista);
-}
-
-void menu_opcion_eliminar(nodo_responsable_t ** lista, int * id) {
-    eliminarResponsable(lista);
-}
-
-void menu_opcion_volver(nodo_responsable_t ** lista, int * id) {
-    printf("Saliendo del Menu de Responsables...\n");
-}
-
-typedef void (*ptr_opcion_t)(nodo_responsable_t **, int *);
-
 void ejecutar_menu_responsables(nodo_responsable_t ** lista, int * ultimo_id) {
     int continuar = 1;
     int opcion = 0;
     
-    ptr_opcion_t acciones[4] = {
-        menu_opcion_agregar, 
-        menu_opcion_modificar, 
-        menu_opcion_eliminar, 
-        menu_opcion_volver
+    p_menu4_t acciones[4] = {
+        agregar_responsable, 
+        modificarResponsable, 
+        eliminarResponsable
     };
 
     while (continuar == 1) {

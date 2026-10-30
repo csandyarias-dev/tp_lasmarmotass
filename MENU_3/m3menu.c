@@ -17,6 +17,9 @@
 //--------------
 #include "m3funciones.h"
 #include "../encabezadogeneral.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 enum m34{añadir=1, modificar, eliminar, volver};
 
@@ -39,9 +42,9 @@ int m3menu(int * u_pac, int * u_resp, nodo_paciente_t ** pac, nodo_responsable_t
     int loop = OK;
 
     p_menu3_t acciones_m3[3] = {
-        agregarPaciente,
-        modificarPaciente,
-        eliminarPaciente
+        agregar_paciente,
+        modificar_paciente,
+        eliminar_paciente
     };
 	
     while (loop) {

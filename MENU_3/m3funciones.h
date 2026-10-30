@@ -23,6 +23,14 @@
 
 typedef int (*p_menu3_t)(nodo_paciente_t **, int *);
 
+//--------------
+//-- Defines --
+//--------------
+
+#define OPCION_AGREGAR 1
+#define OPCION_ELIMINAR 3
+#define OPCION_VOLVER 4
+
 //-------------
 //-- Structs --
 //-------------
@@ -71,7 +79,7 @@ int modificar_paciente(nodo_paciente_t ** primero, int * ultimo_ID_utilizado);
 	\param  nodo_paciente_t ** elegido 
 	\return int estado
 */
-int modificar_nodo(nodo_paciente_t ** elegido);
+int modificar_nodo(nodo_paciente_t * elegido);
 
 /**
 	\fn     int eliminarPaciente(nodo_paciente_t ** primero);
@@ -92,5 +100,7 @@ int eliminar_paciente(nodo_paciente_t ** primero, int * ultimo_ID_utilizado);
 	\return int estado
 */
 int eliminar_nodo(nodo_paciente_t ** lista, nodo_paciente_t * actual, nodo_paciente_t * anterior); 
+
+void mostrar_paciente(nodo_paciente_t * actual);
 
 #endif

@@ -16,6 +16,10 @@
 
 #include "../encabezadogeneral.h"
 
+//--------------
+//-- includes --
+//--------------
+typedef void (*p_menu5_t)(tipopac_t **, int *, int *);
 
 //----------------
 //-- prototipos de funciones --

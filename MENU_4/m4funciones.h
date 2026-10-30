@@ -15,6 +15,12 @@
 
 #include "../encabezadogeneral.h"
 
+
+//--------------
+//-- typedef --
+//--------------
+typedef int (*p_menu4_t)(nodo_responsable_t **, int *);
+
 //----------------
 //-- Prototipos --
 //----------------
@@ -47,7 +53,7 @@ int anadirordenado_r(nodo_responsable_t ** primero, responsable_t nuevo);
 	\param  void 
 	\return int estado
 */
-int modificarResponsable(nodo_responsable_t ** primero);
+int modificarResponsable(nodo_responsable_t ** primero, int * ultimo_ID_utilizado);
 
 /**
 	\fn     int eliminarResponsable(nodo_responsable_t ** primero);
@@ -57,6 +63,6 @@ int modificarResponsable(nodo_responsable_t ** primero);
 	\param  void 
 	\return int estado
 */
-int eliminarResponsable(nodo_responsable_t ** primero);
+int eliminarResponsable(nodo_responsable_t ** primero, int * ultimo_ID_utilizado);
 
 #endif

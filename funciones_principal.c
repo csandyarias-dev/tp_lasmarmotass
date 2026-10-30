@@ -27,7 +27,7 @@ int cargar_pacientes_archivo(nodo_paciente_t ** lista, int *ultimoPacID) {
         fread(ultimoPacID, sizeof(int), 1, fp);
         
         while (fread(&pacAux, sizeof(paciente_t), 1, fp) == 1) { 
-            aniadir_ordenado_p(lista, pacAux);
+            anadir_ordenado_p(lista, pacAux);
             cant_pacientes++; 
         }
         
@@ -58,7 +58,7 @@ int cargar_responsables_archivo(nodo_responsable_t ** lista, int *ultimoResponID
         fread(ultimoResponID, sizeof(int), 1, fp);
         
         while (fread(&respon_aux, sizeof(responsable_t), 1, fp) == 1) { 
-          //  añadir_ordenado_r(lista, pacAux); AÑADIR FUNCION LIZ
+            anadirordenado_r(lista, respon_aux); 
             cant_responsables++; 
         }
         
@@ -184,7 +184,7 @@ int agregar_turno(int * u_pac, int * u_resp, nodo_paciente_t ** pac, nodo_respon
 	// AGREGAR FUNCION VICKY QUE VERIFICA QUE EXISTA EL PACIENTE Y DEVUELVE EL PUNTERO 
 	// estado=ConsultarPacienteID(* lista_pacientes, id, paciente);
 	printf("Paciente seleccionado:");
-	mostrar_paciente(*paciente);
+	mostrar_paciente(paciente);
 	
 	nuevo.pacID=id;
 	nuevo.responID=paciente->responID;

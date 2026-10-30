@@ -22,7 +22,7 @@
 
 int agregar_paciente(nodo_paciente_t ** primero, int * ultimo_ID_utilizado) {
     paciente_t cliente;
-    int estado=ERROR_MEMORIA;
+    int estado=ERROR_MEMORIA, dia, mes, anio;
         
     printf("Ingrese tipo de paciente: "); // AMPLIAR 
     
@@ -30,8 +30,12 @@ int agregar_paciente(nodo_paciente_t ** primero, int * ultimo_ID_utilizado) {
     scanf(" %[^\n]", cliente.nombre); 
     
     printf("Ingrese la fecha de nacimiento SIGUIENDO el siguiente formato DD-MM-AAAA");
-    scanf("%d-%d-%d", &(cliente.nacimiento.bits1.dia), &(cliente.nacimiento.bits1.mes), &(cliente.nacimiento.bits1.anio));
+    scanf("%d-%d-%d", &dia, &mes, &anio);
 
+	cliente.nacimiento.bits1.dia=dia;
+	cliente.nacimiento.bits1.mes=mes;
+	cliente.nacimiento.bits1.anio=anio;
+	
     cliente.pacID=(*ultimo_ID_utilizado)+1;
     
     if (anadir_ordenado_p(primero, cliente) != OK) printf("ERROR AL AÑADIR"); 
@@ -129,16 +133,14 @@ int modificar_paciente(nodo_paciente_t ** lista, int * ultimo_id){
                 actual=actual->sig; 
             }    
         }
-        if (encontrado==0) printf("Paciente no encontrado\n");        
+        if (encontrado==0) printf("Paciente no encontrado\n");  
+       return encontrado;           
     }
-
-    return encontrado; 
-}
     
 int modificar_nodo(nodo_paciente_t * actual){
     int opcion;
     char nombreN[30]={0};
-    int estado = 0; 
+    int estado = 0, dia, mes, anio; 
     
     printf("El paciente a modificar es:");
     mostrar_paciente(actual); 
@@ -157,7 +159,12 @@ int modificar_nodo(nodo_paciente_t * actual){
         
         case FECHA_NACIMIENTO:
             printf("Ingrese la fecha de nacimiento SIGUIENDO el siguiente formato DD-MM-AAAA");
-            scanf("%d-%d-%d", &(actual->paciente.nacimiento.bits1.dia), &(actual->paciente.nacimiento.bits1.mes), &(actual->paciente.nacimiento.bits1.anio));
+            scanf("%d-%d-%d", &dia, &mes, &anio);
+            
+			actual->paciente.nacimiento.bits1.dia=dia;
+			actual->paciente.nacimiento.bits1.mes=mes;
+			actual->paciente.nacimiento.bits1.anio=anio;
+	
             estado = OK;
         break;
         
@@ -240,9 +247,10 @@ int eliminar_nodo(nodo_paciente_t ** lista, nodo_paciente_t * actual, nodo_pacie
         
         free(actual);
         estado = 0; 
-    }
     return estado; 
-}	
+}
+   
+	
 	
 void mostrar_paciente(nodo_paciente_t * actual) {
     if (actual != NULL) {
@@ -252,6 +260,6 @@ void mostrar_paciente(nodo_paciente_t * actual) {
             actual->paciente.nacimiento.bits1.dia, 
             actual->paciente.nacimiento.bits1.mes, 
             actual->paciente.nacimiento.bits1.anio,
-            actual->paciente.id_responsable);
+            actual->paciente.responID);
     }
 }
