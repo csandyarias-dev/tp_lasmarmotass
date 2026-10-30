@@ -16,14 +16,12 @@
 #include <string.h>
 #include "../encabezadogeneral.h"
 
-
 //-------------
 //-- Defines --
 //-------------
 
 #define MAX_LETRAS_NOMBRE 30
 #define MAX_CARACTERES_FECHA 11
-
 
 //---------------
 //-- Funciones --

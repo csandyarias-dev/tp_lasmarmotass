@@ -51,7 +51,7 @@ int ConsultarTurnos_Paciente(nodo_turnos_t *lista_turnos, const char *nombre_ing
 /**
  * Busca turnos por una fecha específica.
  */
-int ConsultarTurnos_Fecha(nodo_turnos_t *lista_turnos, nfecha_t fecha_ingresada);
+int ConsultarTurnos_Fecha(nodo_turnos_t *lista_turnos, nfecha_t fecha_ingresada, nodo_turnos_t ***turnos_encontrados);
 
 //----------------------------------
 // Opciones de Menú 1
@@ -60,10 +60,10 @@ int ConsultarTurnos_Fecha(nodo_turnos_t *lista_turnos, nfecha_t fecha_ingresada)
 void ConsultarPacientePorID_Menu(nodo_paciente_t *lista_pac, nodo_responsable_t *lista_resp);
 void ConsultarPacientePorNombre_Menu(nodo_paciente_t *lista_pac, nodo_responsable_t *lista_resp);
 void ConsultarResponsablePorID_Menu(nodo_responsable_t *lista_resp);
-void ConsultarResponsablePorNombre_Menu(nodo_responsable_t *lista_resp);
+void ConsultarResponsablePorNombre_Menu(nodo_responsable_t *lista_resp, nodo_responsable_t **Responsable_encontrado);
 void ConsultarTurnosPorPacientes_Menu(nodo_paciente_t *lista_pac, nodo_turnos_t *lista_turnos);
 void ConsultarTurnosPorResponsable_Menu(nodo_responsable_t *lista_resp, nodo_turnos_t *lista_turnos);
-void ConsultarTurnosPorFecha_Menu(nodo_turnos_t *lista_turnos);
+void ConsultarTurnosPorFecha_Menu(nodo_turnos_t *lista_turnos, nodo_turnos_t ***turnos_encontrados);
 void MostrarListadoCompletoPacientes(nodo_paciente_t *lista_pac);
 void MostrarListadoCompletoResponsables(nodo_responsable_t *lista_resp);
 void MenuPrincipal(void);
