@@ -36,58 +36,49 @@ int flag_modificacion=0;
 	\return  <Lo que retorna>
 */
 
-int main(int cant char * arg[]) {
+int main(int cant, char * arg[]) {
+    int continuar = OK, entrada = 0, ultimo_id_pac = 0, ultimo_id_resp = 0;
+    int cant_tipos = 0, ultimo_id_tipo = 0;
+    nodo_paciente_t * primero_pac = NULL;
+    nodo_responsable_t * primero_resp = NULL; 
+    nodo_turnos_t * primero_turnos = NULL;
+    tipopac_t * vector_tipos = NULL;
+
+    puntero_menu_principal_t menu_principal[5] = {
+        m1menu,
+        agregar_turno,
+        m3menu,
+        m4menu,
+        m5menu
+    };
+
+    signal(SIGALRM, alarma_handler); 
+    alarm(120);
 	
-	int salir=OK, entrada=0, ultimo_id=0;
-	nodo_paciente_t * primero_pac = NULL;
-	nodo_responsable_t * primero_resp = NULL; 
-	nodo_turnos_t * primero_turnos = NULL;
+    importar_desde_archivo(&ultimo_id_pac, &ultimo_id_resp, &primero_pac, &primero_resp, &primero_turnos, &vector_tipos, &cant_tipos, &ultimo_id_tipo);
 	
-	alarm(120);
-	signal(SIGALRM, alarma_handler); 
-	
-	importar_desde_archivo(&ultimo_id, &primero_pac, &primero_resp, &primero_turnos);
-	
-	while(salir)	{
-		if (flag_alarma) {
-			act_archivos();
-			}
+    while (continuar) {
+        if (flag_alarma) {
+            act_archivos(&primero_pac, &primero_resp, &primero_turnos, vector_tipos, cant_tipos, ultimo_id_tipo);
+            flag_alarma = 0;
+        }
 		
-		printf("Ingrese \n \t 1- Consultar informacion. \n \t 2- Agregar turno \n \t 3- Acceder al menu pacientes. \n \t 4- Acceder al menu responsables. \n \t 5- Acceder al menu configuracion. \n \t 6-Salir \n");
-		switch (entrada) {
-			case consultar_informacion:
-				m1menu(&primero_pac, &primero_resp, &primero_turnos);
-			break;
-			
-			case agregar_turno:
-				agregar_turno(&primero_turnos);
-			break;
-			
-			case menu_paciente: 
-				m3menu(&ultimo_id, &primero_pac, &primero_resp, &primero_turnos);
-			break; 
-			
-			case menu_responsable:
-				
-			break;
-			
-			case menu_configuracion:
-			
-			break;
-			
-			case salir:
-				salir=0;
-				// JOIN THREAD ARCHIVOS PARA QUE TERMINE DE CARGAR O PTHREADEXIT();
-				printf("Sesion finalizada");
-			break;
-			
-			default:
-			printf("Entrada invalida, intente nuevamente.");
-			break;
-			}
-		
-		}
-		// LIBERAR VARIABLES DINAMICAS 
-		// DESTROY MUTEX 
-		return 0;
-	}
+        printf("\nIngrese:\n\t1- Consultar informacion.\n\t2- Agregar turno.\n\t3- Acceder al menu pacientes.\n\t4- Acceder al menu responsables.\n\t5- Acceder al menu configuracion.\n\t6- Salir\nOpcion: ");
+        scanf("%d", &entrada);
+
+        if (entrada >= CONSULTAR_INFORMACION && entrada <= MENU_CONFIGURACION) {
+            menu_principal[entrada - 1](&ultimo_id_pac, &ultimo_id_resp, &primero_pac, &primero_resp, &primero_turnos, &vector_tipos, &cant_tipos, &ultimo_id_tipo);
+        } 
+        else if (entrada == SALIR) {
+            continuar = 0;
+            act_archivos(&primero_pac, &primero_resp, &primero_turnos, vector_tipos, cant_tipos, ultimo_id_tipo);
+            printf("Sesion finalizada\n");
+            
+            // FREE TODO
+        } 
+        else {
+            printf("Entrada invalida, intente nuevamente.\n");
+        }
+    }
+    return 0;
+}
