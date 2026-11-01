@@ -21,7 +21,7 @@
 //-- typedef --
 //--------------
 
-typedef int (*p_menu3_t)(nodo_paciente_t **, int *);
+typedef int (*p_menu3_t)(nodo_paciente_t **, int *, tipopac_t ** tipos, int * cant_t, int * u_tipo);
 
 //--------------
 //-- Defines --
@@ -49,7 +49,7 @@ enum OPCIONESM3{NOMBRE=1, FECHA_NACIMIENTO, ID_RESPONSABLE};
 	\param  nodo_paciente_t ** primero, int * ultimo_ID_utilizado
 	\return int estado
 */
-int agregar_paciente(nodo_paciente_t ** primero, int * ultimo_ID_utilizado);
+int agregar_paciente(nodo_paciente_t ** primero, int * ultimo_ID_utilizado, tipopac_t ** tipos, int * cant_t, int * u_tipo);
 
 /**
 	\fn     int anadir_ordenado(nodo_paciente_t ** primero, paciente_t nuevo);
@@ -69,7 +69,7 @@ int anadir_ordenado_p(nodo_paciente_t ** primero, paciente_t nuevo);
 	\param  nodo_paciente_t ** primero
 	\return int estado
 */
-int modificar_paciente(nodo_paciente_t ** primero, int * ultimo_ID_utilizado);
+int modificar_paciente(nodo_paciente_t ** primero, int * ultimo_ID_utilizado, tipopac_t ** tipos, int * cant_t, int * u_tipo);
 
 /**
 	\fn     int modificarNodo(nodo_paciente_t ** elegido);
@@ -89,7 +89,7 @@ int modificar_nodo(nodo_paciente_t * elegido);
 	\param  nodo_paciente_t ** primero
 	\return int estado
 */
-int eliminar_paciente(nodo_paciente_t ** primero, int * ultimo_ID_utilizado);
+int eliminar_paciente(nodo_paciente_t ** primero, int * ultimo_ID_utilizado, tipopac_t ** tipos, int * cant_t, int * u_tipo);
 
 /**
 	\fn     int eliminar_nodo(nodo_paciente_t ** lista, nodo_paciente_t * actual, nodo_paciente_t * anterior)
@@ -101,6 +101,5 @@ int eliminar_paciente(nodo_paciente_t ** primero, int * ultimo_ID_utilizado);
 */
 int eliminar_nodo(nodo_paciente_t ** lista, nodo_paciente_t * actual, nodo_paciente_t * anterior); 
 
-void mostrar_paciente(nodo_paciente_t * actual);
 
 #endif

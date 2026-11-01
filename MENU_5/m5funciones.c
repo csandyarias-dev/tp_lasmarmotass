@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h> 
@@ -57,7 +56,7 @@ void mostrar_tipos_animales(tipopac_t **vector_tipos, int *cant_tipos, int *ulti
     }
 
 
-    void agregar_tipo_animal(tipopac_t **vector_tipos, int *cant_tipos, int *ultimo_tipoID){
+void agregar_tipo_animal(tipopac_t **vector_tipos, int *cant_tipos, int *ultimo_tipoID){
       tipopac_t *nuevo_animal;
       tipopac_t **vector_aux;
 

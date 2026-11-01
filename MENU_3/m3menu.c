@@ -52,7 +52,7 @@ int m3menu(int * u_pac, int * u_resp, nodo_paciente_t ** pac, nodo_responsable_t
         scanf("%d", &opcion);
 		
         if (opcion >= OPCION_AGREGAR && opcion <= OPCION_ELIMINAR) {
-            acciones_m3[opcion - 1](pac, u_pac);
+            acciones_m3[opcion - 1](pac, u_pac,tipos,cant_t,u_tipo);
         } else if (opcion == OPCION_VOLVER) {
             loop = 0;
         } else {

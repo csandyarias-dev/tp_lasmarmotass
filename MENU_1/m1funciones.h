@@ -59,6 +59,6 @@ void ConsultarTurnosPorResponsable_Menu1(nodo_responsable_t *lista_resp, nodo_tu
 void ConsultarTurnosPorFecha_Menu1(nodo_turnos_t *lista_turnos, nodo_turnos_t ***turnos_encontrados);
 void MostrarListadoCompletoPacientes(nodo_paciente_t *lista_pac);
 void MostrarListadoCompletoResponsables(nodo_responsable_t *lista_resp);
-void menu1(nodo_paciente_t *lista_pac, nodo_responsable_t *lista_resp, nodo_turnos_t *lista_turnos);
+// void menu1(nodo_paciente_t *lista_pac, nodo_responsable_t *lista_resp, nodo_turnos_t *lista_turnos);
 
 #endif 

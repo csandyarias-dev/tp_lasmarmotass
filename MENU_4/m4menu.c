@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void ejecutar_menu_responsables(nodo_responsable_t ** lista, int * ultimo_id) {
+int m4menu(int * u_pac, int * ultimo_id, nodo_paciente_t ** pac, nodo_responsable_t ** lista, nodo_turnos_t ** tur, tipopac_t ** tipos, int * cant_t, int * u_tipo) {
     int continuar = 1;
     int opcion = 0;
     
@@ -39,23 +39,23 @@ void ejecutar_menu_responsables(nodo_responsable_t ** lista, int * ultimo_id) {
     }
 }
 
-int main(int argc, char ** argv) {
-    nodo_responsable_t * lista_responsables = NULL;
-    nodo_responsable_t * actual = NULL;
-    nodo_responsable_t * a_borrar = NULL;
-    int ultimo_id = 0;
+//int main(int argc, char ** argv) {
+    //nodo_responsable_t * lista_responsables = NULL;
+    //nodo_responsable_t * actual = NULL;
+    //nodo_responsable_t * a_borrar = NULL;
+    //int ultimo_id = 0;
 
-    printf("Iniciando modulo local de Responsables...\n");
+    //printf("Iniciando modulo local de Responsables...\n");
     
-    ejecutar_menu_responsables(&lista_responsables, &ultimo_id);
+    //ejecutar_menu_responsables(&lista_responsables, &ultimo_id);
 
-    actual = lista_responsables;
-    while (actual != NULL) {
-        a_borrar = actual;
-        actual = actual->sig;
-        free(a_borrar);
-    }
+    //actual = lista_responsables;
+    //while (actual != NULL) {
+        //a_borrar = actual;
+        //actual = actual->sig;
+        //free(a_borrar);
+    //}
 
-    printf("Memoria liberada con exito. Programa finalizado.\n");
-    return 0;
-}
+    //printf("Memoria liberada con exito. Programa finalizado.\n");
+    //return 0;
+//}

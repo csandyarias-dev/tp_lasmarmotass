@@ -20,11 +20,13 @@
 //-- Funciones --
 //---------------
 
-int agregar_paciente(nodo_paciente_t ** primero, int * ultimo_ID_utilizado) {
+int agregar_paciente(nodo_paciente_t ** primero, int * ultimo_ID_utilizado, tipopac_t ** tipos, int * cant_t, int * u_tipo) {
     paciente_t cliente;
     int estado=ERROR_MEMORIA, dia, mes, anio;
-        
-    printf("Ingrese tipo de paciente: "); // AMPLIAR 
+    
+    mostrar_tipos_animales(tipos, cant_t, u_tipo);    
+    printf("Ingrese tipo de paciente: "); 
+    scanf("%d", cliente.tipoID); 
     
     printf("Ingrese nombre del paciente: ");
     scanf(" %[^\n]", cliente.nombre); 
@@ -83,7 +85,7 @@ int anadir_ordenado_p(nodo_paciente_t ** lista, paciente_t cliente){
     return estado; 
 }
 
-int modificar_paciente(nodo_paciente_t ** lista, int * ultimo_id){
+int modificar_paciente(nodo_paciente_t ** lista, int * ultimo_id, tipopac_t ** tipos, int * cant_t, int * u_tipo){
     int opcion, idBuscado=0, encontrado=0; 
     char nombre[30]={0};
     nodo_paciente_t * anterior = NULL, * actual = NULL, * siguiente = NULL; 
@@ -178,7 +180,7 @@ int modificar_nodo(nodo_paciente_t * actual){
     return estado; 
 }
 
-int eliminar_paciente (nodo_paciente_t ** lista, int * id_ultimo) {
+int eliminar_paciente (nodo_paciente_t ** lista, int * id_ultimo, tipopac_t ** tipos, int * cant_t, int * u_tipo) {
     int opcion, idBuscado=0, encontrado=0; 
     char nombre[30]={0};
     nodo_paciente_t * anterior = NULL, * actual = NULL, * siguiente = NULL; 
@@ -249,17 +251,4 @@ int eliminar_nodo(nodo_paciente_t ** lista, nodo_paciente_t * actual, nodo_pacie
         estado = 0; 
     return estado; 
 }
-   
-	
-	
-void mostrar_paciente(nodo_paciente_t * actual) {
-    if (actual != NULL) {
-        printf("ID: %d | Nombre: %s | Nacimiento: %02d-%02d-%04d | Resp: %d\n", 
-            actual->paciente.pacID, 
-            actual->paciente.nombre, 
-            actual->paciente.nacimiento.bits1.dia, 
-            actual->paciente.nacimiento.bits1.mes, 
-            actual->paciente.nacimiento.bits1.anio,
-            actual->paciente.responID);
-    }
-}
+  

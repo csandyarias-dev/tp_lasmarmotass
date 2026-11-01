@@ -204,7 +204,8 @@ static void opcion_listado_responsables(nodo_paciente_t *lista_pac, nodo_respons
 	\param   lista_turnos: lista de turnos
 	\return  No retorna
 */
-void menu1(nodo_paciente_t *lista_pac, nodo_responsable_t *lista_resp, nodo_turnos_t *lista_turnos){
+
+int m1menu(int * u_pac, int * u_resp, nodo_paciente_t ** lista_pac, nodo_responsable_t ** lista_resp, nodo_turnos_t ** lista_turnos, tipopac_t ** tipos, int * cant_t, int * u_tipo){
 	int opcion=0;
 	int loop=OK;
 
@@ -230,7 +231,7 @@ void menu1(nodo_paciente_t *lista_pac, nodo_responsable_t *lista_resp, nodo_turn
 		}
 
 		if (opcion >= pac_id && opcion < volver) {
-			acciones[opcion - pac_id](lista_pac, lista_resp, lista_turnos);
+			acciones[opcion - pac_id](*lista_pac, *lista_resp, *lista_turnos);
 		} else {
 			if (opcion == volver) {
 				loop = 0;
