@@ -22,18 +22,6 @@
 //----------------
 
 /**
-	\fn     void ejecutar_menu_configuracion(tipopac_t **vector_tipos, int *cant_tipos, int *ultimo_tipoID);
-	\brief  Ejecuta el menu principal de configuracion
-	\author Grupo Las Marmotas
-	\date   2026.09.02
-	\param  tipopac_t ** vector_tipos
-	\param  int * cant_tipos
-	\param  int * ultimo_tipoID
-	\return void
-*/
-void ejecutar_menu_configuracion(tipopac_t **vector_tipos, int *cant_tipos, int *ultimo_tipoID);
-
-/**
 	\fn     void mostrar_tipos_animales(tipopac_t **vector_tipos, int *cant_tipos, int *ultimo_tipoID);
 	\brief  Muestra la lista de tipos de animales registrados
 	\author Grupo Las Marmotas
@@ -80,17 +68,5 @@ void modificar_tipo_animal(tipopac_t **vector_tipos, int *cant_tipos, int *ultim
 	\return void
 */
 void borrar_tipo_animal(tipopac_t **vector_tipos, int *cant_tipos, int *ultimo_tipoID);
-
-/**
-	\fn     void volver_menu_principal(tipopac_t **vector_tipos, int *cant_tipos, int *ultimo_tipoID);
-	\brief  Regresa al menu principal del sistema
-	\author Grupo Las Marmotas
-	\date   2026.09.02
-	\param  tipopac_t ** vector_tipos
-	\param  int * cant_tipos
-	\param  int * ultimo_tipoID
-	\return void
-*/
-void volver_menu_principal(tipopac_t **vector_tipos, int *cant_tipos, int *ultimo_tipoID);
 
 #endif

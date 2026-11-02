@@ -22,32 +22,37 @@
 
 int agregar_paciente(nodo_paciente_t ** primero, int * ultimo_ID_utilizado, tipopac_t ** tipos, int * cant_t, int * u_tipo) {
     paciente_t cliente;
-    int estado=ERROR_MEMORIA, dia, mes, anio;
+    nodo_paciente_t ** aux = NULL;
+    int estado=ERROR_MEMORIA, dia, mes, anio, cargado=OK;
     
     mostrar_tipos_animales(tipos, cant_t, u_tipo);    
-    printf("Ingrese tipo de paciente: "); 
-    scanf("%d", cliente.tipoID); 
+    printf("Ingrese el ID del tipo de paciente: "); 
+    if(leer_uchar(&(cliente.tipoID))){ 
     
-    printf("Ingrese nombre del paciente: ");
-    scanf(" %[^\n]", cliente.nombre); 
-    
-    printf("Ingrese la fecha de nacimiento SIGUIENDO el siguiente formato DD-MM-AAAA");
-    scanf("%d-%d-%d", &dia, &mes, &anio);
-
-	cliente.nacimiento.bits1.dia=dia;
-	cliente.nacimiento.bits1.mes=mes;
-	cliente.nacimiento.bits1.anio=anio;
+		printf("Ingrese nombre del paciente: ");
+		scanf(" %[^\n]", cliente.nombre); 
+		
+		printf("Ingrese la fecha de nacimiento SIGUIENDO el siguiente formato DD-MM-AAAA: ");
+		scanf("%d-%d-%d", &dia, &mes, &anio);
+		
+		cliente.nacimiento.bits1.dia=dia;
+		cliente.nacimiento.bits1.mes=mes;
+		cliente.nacimiento.bits1.anio=anio;
+		
+		printf("Ingrese el ID del responsable: ");
+		if (leer_entero(&(cliente.responID))){ 
+					
+			cliente.pacID=(*ultimo_ID_utilizado)+1;
+			if (anadir_ordenado_p(primero, cliente) != OK) printf("ERROR AL AÑADIR"); 
+			else { 
+				estado=OK;
+				(*ultimo_ID_utilizado)++;
+			}
+	} else printf("ID invalido");
 	
-    cliente.pacID=(*ultimo_ID_utilizado)+1;
-    
-    if (anadir_ordenado_p(primero, cliente) != OK) printf("ERROR AL AÑADIR"); 
-    else { 
-        printf("añadido con exito");
-        estado=OK;
-        (*ultimo_ID_utilizado)++;
-    }
+	} else printf("Entrada invalida, intentelo nuevamente.");
 
-    return estado; 
+return estado; 
 }
 
 int anadir_ordenado_p(nodo_paciente_t ** lista, paciente_t cliente){

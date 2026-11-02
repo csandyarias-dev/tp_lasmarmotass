@@ -14,7 +14,7 @@ int m4menu(int * u_pac, int * ultimo_id, nodo_paciente_t ** pac, nodo_responsabl
     int continuar = 1;
     int opcion = 0;
     
-    p_menu4_t acciones[4] = {
+    p_menu4_t acciones[3] = {
         agregar_responsable, 
         modificarResponsable, 
         eliminarResponsable
@@ -22,18 +22,16 @@ int m4menu(int * u_pac, int * ultimo_id, nodo_paciente_t ** pac, nodo_responsabl
 
     while (continuar == 1) {
         printf("\n--- MENU 4: RESPONSABLES ---\n");
-        printf("1) Agregar responsable\n");
-        printf("2) Modificar responsable\n");
-        printf("3) Eliminar responsable\n");
-        printf("4) Volver\n");
+        printf("\t 1- Agregar responsable\n");
+        printf("\t 2- Modificar responsable\n");
+        printf("\t 3- Eliminar responsable\n");
+        printf("\t 4- Volver\n");
         printf("Seleccione una opcion: ");
-        scanf("%d", &opcion);
+        if(leer_entero(&opcion)!=OK) opcion=0;
 
-        if (opcion >= OPCION_AGREGAR && opcion <= OPCION_VOLVER) {
-            acciones[opcion - 1](lista, ultimo_id);
-            
-            if (opcion == OPCION_VOLVER) continuar = 0;
-        } else {
+        if (opcion >= OPCION_AGREGAR && opcion < OPCION_VOLVER) acciones[opcion - 1](lista, ultimo_id);
+        else if (opcion == OPCION_VOLVER) continuar = 0;
+        else {
             printf("[ERROR] Opcion invalida. Intente nuevamente.\n");
         }
     }

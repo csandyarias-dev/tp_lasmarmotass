@@ -52,7 +52,7 @@ int cargar_responsables_archivo(nodo_responsable_t ** lista, int *ultimoResponID
     int cant_responsables=0;
 
     // Abrimos el archivo en modo lectura binaria 
-    fp = fopen("responsables.dat", "rb");
+    fp = fopen("dat/responsables.dat", "rb");
 
     if (fp != NULL) {
         fread(ultimoResponID, sizeof(int), 1, fp);
@@ -82,7 +82,7 @@ int cargar_turnos_archivo(nodo_turnos_t ** lista) {
     int cant_turnos=0;
 
     // Abrimos el archivo en modo lectura binaria 
-    fp = fopen("turnos.dat", "rb");
+    fp = fopen("dat/turnos.dat", "rb");
 
     if (fp != NULL) {
         
@@ -175,19 +175,17 @@ int importar_desde_archivo(int * ultimo_id_pac, int * ultimo_id_resp, nodo_pacie
 int agregar_turno(int * u_pac, int * u_resp, nodo_paciente_t ** pac, nodo_responsable_t ** resp, nodo_turnos_t ** turnos, tipopac_t ** tipos, int * cant_t, int * u_tipo){
 	int id, estado=ERROR;
 	turnos_t nuevo; 
-	paciente_t * paciente=NULL; 
+	nodo_paciente_t * paciente=NULL; 
 	int dia, mes, anio, hora, min;
 	
 	printf("Ingrese el ID del paciente:");
 	scanf("%d", &id);
-	
-	// AGREGAR FUNCION VICKY QUE VERIFICA QUE EXISTA EL PACIENTE Y DEVUELVE EL PUNTERO 
-	// estado=ConsultarPacienteID(* lista_pacientes, id, paciente);
+
 	printf("Paciente seleccionado:");
-	mostrar_paciente(paciente);
 	
+	if(ConsultarCoincidencias_PacienteID(*pac, id, &paciente)){
 	nuevo.pacID=id;
-	nuevo.responID=paciente->responID;
+	nuevo.responID=paciente->paciente.responID;
 	
 	printf("Ingrese la fecha siguiendo el siguiente formato: DIA-MES-AÑO");
 	scanf("%d-%d-%d", &dia, &mes, &anio);
@@ -202,6 +200,9 @@ int agregar_turno(int * u_pac, int * u_resp, nodo_paciente_t ** pac, nodo_respon
     
     if (aniadir_ordenado_t(turnos, nuevo) == OK) estado = OK;
     else estado = ERROR;
+    
+	}
+	else printf("\n Paciente no entcontrado");
     
 	return estado;
 	

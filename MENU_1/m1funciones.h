@@ -30,6 +30,7 @@ void imprimir_fecha_hora(nfecha_t f, nhora_t h);
 void mostrar_turno(nodo_turnos_t * actual);
 void limpiar_buffer(void);
 int leer_entero(int * valor);
+int leer_uchar(unsigned char * valor);
 int es_fecha_valida(nfecha_t f);
 const char * obtener_nombre_paciente(nodo_paciente_t * lista_pac, int pacID);
 const char * obtener_nombre_responsable(nodo_responsable_t * lista_resp, int responID);

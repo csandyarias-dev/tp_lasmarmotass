@@ -64,8 +64,16 @@ int main(int cant, char * arg[]) {
             flag_alarma = 0;
         }
 		
-        printf("\nIngrese:\n\t1- Consultar informacion.\n\t2- Agregar turno.\n\t3- Acceder al menu pacientes.\n\t4- Acceder al menu responsables.\n\t5- Acceder al menu configuracion.\n\t6- Salir\nOpcion: ");
-        scanf("%d", &entrada);
+		printf("\n--- MENU PRINCIPAL ---\n");
+        printf("\nIngrese:\n\t1- Consultar informacion. \
+						   \n\t2- Agregar turno.\
+						    \n\t3- Acceder al menu pacientes.\
+						     \n\t4- Acceder al menu responsables.\
+						      \n\t5- Acceder al menu configuracion.\
+						       \n\t6- Salir \
+						        \nOpcion: ");
+        if(leer_entero(&entrada)!=OK) entrada=0;
+       
 
         if (entrada >= CONSULTAR_INFORMACION && entrada <= MENU_CONFIGURACION) {
             menu_principal[entrada - 1](&ultimo_id_pac, &ultimo_id_resp, &primero_pac, &primero_resp, &primero_turnos, &vector_tipos, &cant_tipos, &ultimo_id_tipo);
@@ -79,6 +87,7 @@ int main(int cant, char * arg[]) {
         } 
         else {
             printf("Entrada invalida, intente nuevamente.\n");
+            entrada=0;
         }
     }
     return 0;

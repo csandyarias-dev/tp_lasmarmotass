@@ -38,25 +38,26 @@ enum m34{añadir=1, modificar, eliminar, volver};
 */
 
 int m3menu(int * u_pac, int * u_resp, nodo_paciente_t ** pac, nodo_responsable_t ** resp, nodo_turnos_t ** tur, tipopac_t ** tipos, int * cant_t, int * u_tipo) {
-    int opcion = 0;
-    int loop = OK;
+    int opcion = 0, loop = OK, estado=0;
 
     p_menu3_t acciones_m3[3] = {
         agregar_paciente,
         modificar_paciente,
         eliminar_paciente
     };
+    char cadena[3][11]={"agregado", "modificado", "eliminado"};
 	
     while (loop) {
         printf("\nIngrese:\n\t 1- Añadir paciente\n\t 2- Modificar paciente\n\t 3- Eliminar paciente\n\t 4- Volver\nOpcion: ");
-        scanf("%d", &opcion);
+        if(leer_entero(&opcion)!=OK) opcion=0;
 		
         if (opcion >= OPCION_AGREGAR && opcion <= OPCION_ELIMINAR) {
-            acciones_m3[opcion - 1](pac, u_pac,tipos,cant_t,u_tipo);
+            estado=acciones_m3[opcion - 1](pac, u_pac,tipos,cant_t,u_tipo);
+            if (estado>0) printf("Paciente %s con exito!", cadena[opcion-1]);
         } else if (opcion == OPCION_VOLVER) {
             loop = 0;
         } else {
-            printf("Opcion invalida, intente nuevamente.\n");
+            printf("[ERROR] Opcion invalida, intente nuevamente.\n");
         }
     }
     return OK;

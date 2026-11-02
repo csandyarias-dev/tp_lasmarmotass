@@ -183,6 +183,27 @@ int leer_entero(int * valor) {
 //-------------------------------------------------------------
 
 /**
+	\fn     int leer_uchar(int * valor);
+	\brief  Lee un unsigned char por teclado y chequea que sea un unsigned char
+	\author Las Marmotas
+	\date   2026.10.29
+	\param  valor: puntero donde se guarda el uchar leido
+	\return 1 si se leyo un numero, 0 si no
+*/
+int leer_uchar(unsigned char * valor) {
+    int es_numero = 0;
+
+    if (scanf("%hhu", valor) == 1) {
+        es_numero = 1;
+    }
+    limpiar_buffer();
+
+    return es_numero;
+}
+
+//-------------------------------------------------------------
+
+/**
 	\fn     int es_fecha_valida(nfecha_t f);
 	\brief  Chequea que la fecha exista (contempla años bisiestos)
 	\author Las Marmotas
