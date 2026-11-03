@@ -234,6 +234,27 @@ int es_fecha_valida(nfecha_t f) {
 //-------------------------------------------------------------
 
 /**
+	\fn     int es_hora_valida(int hora, int min, int am_pm)
+	\brief  Chequea que la hora sea valida
+	\author Las Marmotas
+	\date   2026.10.29
+	\param  int hora, int min, int am_pm
+	\return 1 si la hora es valida, 0 si no
+*/
+
+int es_hora_valida(int hora, int min, int am_pm) {
+    int valida = 0;
+
+    if (hora >= 1 && hora <= 12 && min >= 0 && min <= 59 && (am_pm == 0 || am_pm == 1)) {
+        valida = 1;
+    }
+
+    return valida;
+}
+
+//-------------------------------------------------------------
+
+/**
 	\fn     const char * obtener_nombre_paciente(nodo_paciente_t * lista_pac, int pacID);
 	\brief  Busca el nombre de un paciente a partir de su ID
 	\author Las Marmotas

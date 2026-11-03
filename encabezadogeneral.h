@@ -251,8 +251,7 @@ void alarma_handler(int nsig);
 	\return  int estado
 */
 	
-int act_archivos(nodo_paciente_t ** pac_primero, nodo_responsable_t ** resp_primero, nodo_turnos_t ** turnos_primero, tipopac_t * vector_tipos, int cant_tipos, int ultimo_id_tipo);
-
+int act_archivos(nodo_paciente_t ** pac_primero, int ultimo_id_pac, nodo_responsable_t ** resp_primero, int ultimo_id_resp, nodo_turnos_t ** turnos_primero, tipopac_t * vector_tipos, int cant_tipos, int ultimo_id_tipo);
 /**
 	\fn    	 int act_pacientes_archivos(nodo_paciente_t ** primero) 
 	\brief   actualiza el archivo pacientes.dat
@@ -262,7 +261,7 @@ int act_archivos(nodo_paciente_t ** pac_primero, nodo_responsable_t ** resp_prim
 	\return  int estado
 */
 
-int act_pacientes_archivos(nodo_paciente_t ** primero);
+int act_pacientes_archivos(nodo_paciente_t ** primero, int ultimo_id);
 
 /**
 	\fn    	 int act_resp_archivos(nodo_responsable_t ** primero)
@@ -273,7 +272,7 @@ int act_pacientes_archivos(nodo_paciente_t ** primero);
 	\return  int estado
 */
 
-int act_resp_archivos(nodo_responsable_t ** primero);
+int act_resp_archivos(nodo_responsable_t ** primero, int ultimo_id);
 
 /**
 	\fn    	 int act_turnos_archivos(nodo_turnos_t ** primero)
@@ -296,5 +295,15 @@ int act_turnos_archivos(nodo_turnos_t ** primero);
 */
 
 int act_tipos_archivos(tipopac_t * vector_tipos, int cant_tipos, int ultimo_tipoID);
+
+/**
+	\fn    	 void liberar_memoria(nodo_paciente_t ** pac, nodo_responsable_t ** resp, nodo_turnos_t ** tur, tipopac_t ** tipos, int cant_tipos)
+	\brief   libera la memoria usada por el programa
+	\author  <Apellido y Nombre (mail)>
+	\date    <Año.Mes.Día>
+	\param   nodo_paciente_t ** pac, nodo_responsable_t ** resp, nodo_turnos_t ** tur, tipopac_t ** tipos, int cant_tipos
+	\return  void
+*/
+void liberar_memoria(nodo_paciente_t ** pac, nodo_responsable_t ** resp, nodo_turnos_t ** tur, tipopac_t ** tipos, int cant_tipos);
 	
 #endif	

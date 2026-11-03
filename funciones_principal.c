@@ -173,40 +173,51 @@ int importar_desde_archivo(int * ultimo_id_pac, int * ultimo_id_resp, nodo_pacie
 */
 
 int agregar_turno(int * u_pac, int * u_resp, nodo_paciente_t ** pac, nodo_responsable_t ** resp, nodo_turnos_t ** turnos, tipopac_t ** tipos, int * cant_t, int * u_tipo){
-	int id, estado=ERROR;
+	int id = 0, estado = ERROR;
 	turnos_t nuevo; 
-	nodo_paciente_t * paciente=NULL; 
-	int dia, mes, anio, hora, min;
+	nodo_paciente_t * paciente = NULL; 
+	int dia = 0, mes = 0, anio = 0, hora = 0, min = 0, am_pm = 0; // MODIFICADO: Se agrega variable am_pm
 	
-	printf("Ingrese el ID del paciente:");
-	scanf("%d", &id);
+	printf("Ingrese el ID del paciente: ");
+	if(leer_entero(&id)){ 
 
-	printf("Paciente seleccionado:");
-	
-	if(ConsultarCoincidencias_PacienteID(*pac, id, &paciente)){
-	nuevo.pacID=id;
-	nuevo.responID=paciente->paciente.responID;
-	
-	printf("Ingrese la fecha siguiendo el siguiente formato: DIA-MES-AÑO");
-	scanf("%d-%d-%d", &dia, &mes, &anio);
-	nuevo.fecha.bits1.dia = dia;
-    nuevo.fecha.bits1.mes = mes;
-    nuevo.fecha.bits1.anio = anio;    
-	
-	printf("Ingrese la hora formato 24hs de la siguiente forma HH:MM");
-	scanf("%d:%d", &hora, &min);
-	nuevo.hora.bits.hora = hora;
-    nuevo.hora.bits.min = min;
-    
-    if (aniadir_ordenado_t(turnos, nuevo) == OK) estado = OK;
-    else estado = ERROR;
-    
-	}
-	else printf("\n Paciente no entcontrado");
-    
-	return estado;
-	
-	}
+		printf("Paciente seleccionado:\n");
+		
+		if(ConsultarCoincidencias_PacienteID(*pac, id, &paciente)){
+			nuevo.pacID = id;
+			nuevo.responID = paciente->paciente.responID;
+		
+			printf("Ingrese la fecha siguiendo el siguiente formato: DIA-MES-ANIO: ");
+			scanf("%d-%d-%d", &dia, &mes, &anio);
+			nuevo.fecha.bits1.dia = dia;
+			nuevo.fecha.bits1.mes = mes;
+			nuevo.fecha.bits1.anio = anio;    
+		
+			printf("Ingrese la hora formato 12hs (01 a 12) de la siguiente forma HH:MM: ");
+			scanf("%d:%d", &hora, &min);
+			limpiar_buffer();
+			printf("Ingrese 0 para AM o 1 para PM: ");
+			leer_entero(&am_pm);
+
+			nuevo.hora.bits.hora = hora;
+			nuevo.hora.bits.min = min;
+			nuevo.hora.bits.am_pm = am_pm;
+		
+			if (es_fecha_valida(nuevo.fecha) && es_hora_valida(hora, min, am_pm)) {
+				if (aniadir_ordenado_t(turnos, nuevo) == OK)
+				{
+					 printf("Turno agregado con exito");
+					 estado = OK;
+				}
+				else estado = ERROR;
+			} else {
+				printf("\n Fecha u hora invalida\n");
+			}
+		}
+		else printf("\n Paciente no encontrado\n");
+	} else printf("ID invalido");	
+ return estado;
+}
 	
 /**
 	\fn      int comparar_fecha_hora(turnos_t a, turnos_t b)
@@ -226,6 +237,8 @@ int comparar_fecha_hora(turnos_t a, turnos_t b) {
         resultado = a.fecha.bits1.mes - b.fecha.bits1.mes;
     } else if (a.fecha.bits1.dia != b.fecha.bits1.dia) {
         resultado = a.fecha.bits1.dia - b.fecha.bits1.dia;
+    } else if (a.hora.bits.am_pm != b.hora.bits.am_pm) {
+        resultado = a.hora.bits.am_pm - b.hora.bits.am_pm;
     } else if (a.hora.bits.hora != b.hora.bits.hora) {
         resultado = a.hora.bits.hora - b.hora.bits.hora;
     } else {
@@ -280,9 +293,9 @@ int aniadir_ordenado_t(nodo_turnos_t **lista, turnos_t nuevo) {
 			*lista = agregando;
 			estado = OK;
         }
-	return estado; 
    }
-  }
+   return estado; 
+}
   
 	/**
 	\fn    	 void alarma_handler(int nsig)
@@ -308,12 +321,11 @@ void alarma_handler(int nsig) {
 	\return  int estado
 */
 	
-int act_archivos(nodo_paciente_t ** pac_primero, nodo_responsable_t ** resp_primero, nodo_turnos_t ** turnos_primero, tipopac_t * vector_tipos, int cant_tipos, int ultimo_id_tipo) {
-	
+int act_archivos(nodo_paciente_t ** pac_primero, int ultimo_id_pac, nodo_responsable_t ** resp_primero, int ultimo_id_resp, nodo_turnos_t ** turnos_primero, tipopac_t * vector_tipos, int cant_tipos, int ultimo_id_tipo) {
     // MUTEX ARCHIVOS LOCK
     act_tipos_archivos(vector_tipos, cant_tipos, ultimo_id_tipo);
-    act_pacientes_archivos(pac_primero);
-    act_resp_archivos(resp_primero);
+    act_pacientes_archivos(pac_primero, ultimo_id_pac);
+    act_resp_archivos(resp_primero, ultimo_id_resp);
     act_turnos_archivos(turnos_primero);
     // MUTEX ARCHIVOS UNLOCK
     return OK;
@@ -328,30 +340,25 @@ int act_archivos(nodo_paciente_t ** pac_primero, nodo_responsable_t ** resp_prim
 	\return  int estado
 */
 
-int act_pacientes_archivos(nodo_paciente_t ** primero) {
+int act_pacientes_archivos(nodo_paciente_t ** primero, int ultimo_id_pac) {
     FILE *fp;
     nodo_paciente_t * actual;
-    int id=0, estado=0;
+    int estado = 0;
     
-    fp = fopen("dat/pacientes.dat", "wb+");  // DEFINE NOMBRE ARCHIVO
+    fp = fopen("dat/pacientes.dat", "wb+");
     
     if (fp != NULL) {
-        if (*primero != NULL) {
-            actual = *primero; 
-            while (actual != NULL) {
-                if (id < actual->paciente.pacID) id = actual->paciente.pacID;
-                actual = actual->sig;                
-            }
-            fwrite(&id, sizeof(int), 1, fp); 
-            actual = *primero; 
-            while (actual != NULL) {
-                fwrite(&(actual->paciente), sizeof(paciente_t), 1, fp); 
-                actual = actual->sig;
-                estado++;
-            }
+		fwrite(&ultimo_id_pac, sizeof(int), 1, fp); 
+        actual = *primero; 
+        while (actual != NULL) {
+            fwrite(&(actual->paciente), sizeof(paciente_t), 1, fp); 
+            actual = actual->sig;
+            estado++;
         }
-        else estado = ERROR;
         fclose(fp);
+    } 
+    else {
+        estado = ERROR;
     }
     return estado;
 } 
@@ -365,30 +372,25 @@ int act_pacientes_archivos(nodo_paciente_t ** primero) {
 	\return  int estado
 */
 
-int act_resp_archivos(nodo_responsable_t ** primero) {
+int act_resp_archivos(nodo_responsable_t ** primero, int ultimo_id_resp) {
     FILE *fp;
     nodo_responsable_t * actual;
-    int id=0, estado=0;
+    int estado = 0;
     
     fp = fopen("dat/responsables.dat", "wb+"); 
     
     if (fp != NULL) {
-        if (*primero != NULL) {
-            actual = *primero; 
-            while (actual != NULL) {
-                if (id < actual->responsable.responID) id = actual->responsable.responID;
-                actual = actual->sig;                
-            }
-            fwrite(&id, sizeof(int), 1, fp); 
-            actual = *primero; 
-            while (actual != NULL) {
-                fwrite(&(actual->responsable), sizeof(responsable_t), 1, fp); 
-                actual = actual->sig;
-                estado++;
-            }
+		fwrite(&ultimo_id_resp, sizeof(int), 1, fp); 
+        actual = *primero; 
+        while (actual != NULL) {
+            fwrite(&(actual->responsable), sizeof(responsable_t), 1, fp); 
+            actual = actual->sig;
+            estado++;
         }
-        else estado = ERROR;
         fclose(fp);
+    } 
+    else {
+        estado = ERROR;
     }
     return estado;
 }
@@ -446,4 +448,43 @@ int act_tipos_archivos(tipopac_t * vector_tipos, int cant_tipos, int ultimo_tipo
         fclose(fp);
     }
     return estado;
+}
+
+/** HACER NOK
+	\fn    	 int act_tipos_archivos(tipopac_t * vector_tipos, int cant_tipos, int ultimo_tipoID)
+	\brief   actualiza el archivo tipospac.lst
+	\author  <Apellido y Nombre (mail)>
+	\date    <Año.Mes.Día>
+	\param   tipopac_t * vector_tipos, int cant_tipos, int ultimo_tipoID
+	\return  int estado
+*/
+
+void liberar_memoria(nodo_paciente_t ** pac, nodo_responsable_t ** resp, nodo_turnos_t ** tur, tipopac_t ** tipos, int cant_tipos) {
+    nodo_paciente_t * aux_p = NULL;
+    nodo_responsable_t * aux_r = NULL;
+    nodo_turnos_t * aux_t = NULL;
+    int i = 0;
+
+    while (*pac != NULL) {
+        aux_p = *pac;
+        *pac = (*pac)->sig;
+        free(aux_p);
+    }
+    while (*resp != NULL) {
+        aux_r = *resp;
+        *resp = (*resp)->sig;
+        free(aux_r);
+    }
+    while (*tur != NULL) {
+        aux_t = *tur;
+        *tur = (*tur)->sig;
+        free(aux_t);
+    }
+    if (*tipos != NULL) {
+        for (i = 0; i < cant_tipos; i++) {
+            free((*tipos)[i].nombre);
+        }
+        free(*tipos);
+        *tipos = NULL;
+    }
 }

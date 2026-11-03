@@ -240,4 +240,5 @@ int m1menu(int * u_pac, int * u_resp, nodo_paciente_t ** lista_pac, nodo_respons
 			}
 		}
 	}
+	return OK;
 }

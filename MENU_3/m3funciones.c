@@ -90,59 +90,49 @@ int anadir_ordenado_p(nodo_paciente_t ** lista, paciente_t cliente){
     return estado; 
 }
 
-int modificar_paciente(nodo_paciente_t ** lista, int * ultimo_id, tipopac_t ** tipos, int * cant_t, int * u_tipo){
-    int opcion, idBuscado=0, encontrado=0; 
-    char nombre[30]={0};
-    nodo_paciente_t * anterior = NULL, * actual = NULL, * siguiente = NULL; 
+int modificar_paciente(nodo_paciente_t ** lista, int * ultimo_id, tipopac_t ** tipos, int * cant_t, int * u_tipo) {
+    int opcion = 0, idBuscado = 0, coincidencias = 0, modificado = 0; 
+    char nombre[30] = {0};
+    nodo_paciente_t * actual = NULL; 
     
     do {
-        printf("Ingrese 1 para buscar por nombre y 2 para buscar por ID");
-        scanf("%d", &opcion);
-    } while((opcion!=1) && (opcion!=2));
+        printf("Ingrese 1 para buscar por nombre y 2 para buscar por ID: ");
+        leer_entero(&opcion);
+    } while ((opcion != 1) && (opcion != 2));
     
-    if (opcion==1){
-        scanf(" %[^\n]", nombre); 
-        actual=*lista;    
-     
-        while ((actual!=NULL) && (encontrado==0)){
-            if (strcmp(actual->paciente.nombre, nombre)!=0)
-            {
-                anterior = actual; 
-                actual=actual->sig;
-            }
-            else {
-                siguiente=actual->sig; 
-                if ((siguiente!=NULL) && (strcmp(siguiente->paciente.nombre, nombre)==0)) {
-                    printf("Duplicado, debe modificar ingresando el ID\n");
-                    mostrar_paciente(actual);
-                    mostrar_paciente(siguiente);
-                    encontrado = 1; 
-                }
-                else {
-                    modificar_nodo(actual);
-                    encontrado = 1; 
-                }
-            }
-        }
-        if (encontrado==0) printf("Paciente no encontrado\n"); 
-    }
-    else if (opcion==2){
-        printf("Ingrese ID");
-        scanf("%d", &idBuscado); 
+    if (opcion == 1) {
+        printf("Ingrese nombre: ");
+        scanf(" %29[^\n]", nombre); 
+        limpiar_buffer();
+
+        coincidencias = ConsultarCoincidencias_PacienteNombre(*lista, nombre, &actual);
+
+        if (coincidencias == 1) {
+            modificar_nodo(actual);
+            modificado = 1;
+        } 
+        else if (coincidencias > 1) 
+        { 
+			printf("Duplicado, debe modificar ingresando el ID\n");
+			opcion==2;
+		}
+        else printf("Paciente no encontrado\n");
+    } 
+    
+    if (opcion == 2) {
+        printf("Ingrese ID: ");
+        leer_entero(&idBuscado); 
         
-        actual=*lista; 
-            if (actual->paciente.pacID==idBuscado){
-                encontrado=1; 
-                modificar_nodo(actual);
-            }
-            else {
-                anterior=actual;
-                actual=actual->sig; 
-            }    
+        if (ConsultarCoincidencias_PacienteID(*lista, idBuscado, &actual) == 1) {
+            modificar_nodo(actual);
+            modificado = 1;
+        } else {
+            printf("Paciente no encontrado\n");  
         }
-        if (encontrado==0) printf("Paciente no encontrado\n");  
-       return encontrado;           
     }
+
+    return modificado;           
+}
     
 int modificar_nodo(nodo_paciente_t * actual){
     int opcion;

@@ -3,87 +3,89 @@
 #include <string.h> 
 #include "encabezadogeneral.h"
 
-void mostrar_tipos_animales(tipopac_t **vector_tipos, int *cant_tipos, int *ultimo_tipoID)
-{
+void mostrar_tipos_animales(tipopac_t **vector_tipos, int *cant_tipos, int *ultimo_tipoID){
     int i;
     i = 0;
-    if(*cant_tipos == 0){
-        printf("No hay tipos de animales registrados\n");
-    }
+    if(*cant_tipos == 0) printf("No hay tipos de animales registrados\n");
+
     else {
         printf("Lista de tipos de animales:\n");
         for(i = 0; i < *cant_tipos; i++){
             printf("ID: %d, Nombre: %s\n", (*vector_tipos)[i].tipoID, (*vector_tipos)[i].nombre);
         }
     }
-        return;
-    }
+}
  
  void agregar_tipo_animal(tipopac_t **vector_tipos, int *cant_tipos, int *ultimo_tipoID) {
-    tipopac_t *vector_aux;
+    tipopac_t *vector_aux = NULL;
+    char buffer[50] = {0};
 
     vector_aux = (tipopac_t *)realloc(*vector_tipos, (*cant_tipos + 1) * sizeof(tipopac_t));
     if (vector_aux == NULL) {
         printf("No hay suficiente memoria para agregar al animal\n");
-        return;
+    } 
+    else { 
+        *vector_tipos = vector_aux;
+
+        printf("Ingrese el nombre del tipo de animal:\n");
+        scanf(" %49[^\n]", buffer); // SOPORTA ESPACIOS
+        limpiar_buffer();
+
+        (*vector_tipos)[*cant_tipos].nombre = (char *)malloc((strlen(buffer) + 1) * sizeof(char));
+        if ((*vector_tipos)[*cant_tipos].nombre == NULL) {
+            printf("No hay suficiente memoria para el nombre del animal\n");
+        } 
+        else { 
+            strcpy((*vector_tipos)[*cant_tipos].nombre, buffer);
+            (*ultimo_tipoID)++;
+            (*vector_tipos)[*cant_tipos].tipoID = *ultimo_tipoID;
+            (*cant_tipos)++;
+            printf("El tipo de animal se agrego correctamente\n");
+        }
     }
-    
-    *vector_tipos = vector_aux;
-
-    (*vector_tipos)[*cant_tipos].nombre = (char *)malloc(50 * sizeof(char));
-    if ((*vector_tipos)[*cant_tipos].nombre == NULL) {
-        printf("No hay suficiente memoria para el nombre del animal\n");
-        return;
-    }
-    
-    (*ultimo_tipoID)++;
-    (*vector_tipos)[*cant_tipos].tipoID = *ultimo_tipoID;
-
-    printf("Ingrese el nombre del tipo de animal:\n");
-    scanf("%s", (*vector_tipos)[*cant_tipos].nombre);
-
-    (*cant_tipos)++;
-
-    printf("El tipo de animal se agrego correctamente\n");
+    return; 
 }
 
-
 void modificar_tipo_animal(tipopac_t **vector_tipos, int *cant_tipos, int *ultimo_tipoID){
-        int i;
-        int id_buscado;
-        int p_encontrada;
+    int i = 0;
+    int id_buscado = 0;
+    int p_encontrada = -1;
+    char buffer[50] = {0}; 
+    char *nombre_aux = NULL; 
 
-        i = 0;
-        id_buscado = 0;
-        p_encontrada = -1;
+    if(*cant_tipos == 0){
+        printf("No hay tipos de animales registrados\n");
+    }
+    else{
+        printf("Modificar tipo de animal\n");
+        printf("Ingrese el ID del tipo de animal a modificar:\n");
+        leer_entero(&id_buscado);
 
-        if(*cant_tipos == 0){
-            printf("No hay tipos de animales registrados\n");
-        }
-        else{
-            printf("Modificar tipo de animal\n");
-            printf("Ingrese el ID del tipo de animal a modificar:\n");
-            scanf("%d", &id_buscado);
-
-            for(i = 0; i < *cant_tipos; i++){
-                if((*vector_tipos)[i].tipoID == id_buscado){
-                    p_encontrada = i;
-                }
+        for(i = 0; i < *cant_tipos; i++){
+            if((*vector_tipos)[i].tipoID == id_buscado){
+                p_encontrada = i;
             }
+        }
         if(p_encontrada == -1){
             printf("No se encontro el animal con ID %d\n", id_buscado);
         }
         else{
             printf("Ingrese el nuevo nombre del tipo de animal:\n");
-            scanf("%s", (*vector_tipos)[p_encontrada].nombre);
-            printf("El animal con ID %d se modifico \n", id_buscado);
+            scanf(" %49[^\n]", buffer); // [^\n] ES PARA QUE SOPORTE ESPACIOS
+            limpiar_buffer();
+            
+            nombre_aux = (char *)realloc((*vector_tipos)[p_encontrada].nombre, (strlen(buffer) + 1) * sizeof(char));
+            if (nombre_aux != NULL) {
+                (*vector_tipos)[p_encontrada].nombre = nombre_aux;
+                strcpy((*vector_tipos)[p_encontrada].nombre, buffer);
+                printf("El animal con ID %d se modifico \n", id_buscado);
+            } else {
+                printf("No hay suficiente memoria para modificar el nombre\n");
+            }
         }
-
-
-        return;
     }
-
-    }
+    return; 
+}
 
 void borrar_tipo_animal(tipopac_t **vector_tipos, int *cant_tipos, int *ultimo_tipoID) {
     int i, id_buscado = 0, p_encontrada = ERROR, nuevo_tamano, flag=0;

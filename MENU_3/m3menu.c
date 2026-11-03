@@ -21,8 +21,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-enum m34{añadir=1, modificar, eliminar, volver};
-
 //-------------
 //-- Defines --
 //-------------

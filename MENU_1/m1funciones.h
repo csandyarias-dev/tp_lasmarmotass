@@ -32,6 +32,7 @@ void limpiar_buffer(void);
 int leer_entero(int * valor);
 int leer_uchar(unsigned char * valor);
 int es_fecha_valida(nfecha_t f);
+int es_hora_valida(int hora, int min, int am_pm);
 const char * obtener_nombre_paciente(nodo_paciente_t * lista_pac, int pacID);
 const char * obtener_nombre_responsable(nodo_responsable_t * lista_resp, int responID);
 

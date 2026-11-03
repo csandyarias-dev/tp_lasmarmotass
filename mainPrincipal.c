@@ -60,7 +60,7 @@ int main(int cant, char * arg[]) {
 	
     while (continuar) {
         if (flag_alarma) {
-            act_archivos(&primero_pac, &primero_resp, &primero_turnos, vector_tipos, cant_tipos, ultimo_id_tipo);
+            act_archivos(&primero_pac, ultimo_id_pac, &primero_resp, ultimo_id_resp, &primero_turnos, vector_tipos, cant_tipos, ultimo_id_tipo);
             flag_alarma = 0;
         }
 		
@@ -80,10 +80,10 @@ int main(int cant, char * arg[]) {
         } 
         else if (entrada == SALIR) {
             continuar = 0;
-            act_archivos(&primero_pac, &primero_resp, &primero_turnos, vector_tipos, cant_tipos, ultimo_id_tipo);
+            act_archivos(&primero_pac, ultimo_id_pac, &primero_resp, ultimo_id_resp, &primero_turnos, vector_tipos, cant_tipos, ultimo_id_tipo);
+            liberar_memoria(&primero_pac, &primero_resp, &primero_turnos, &vector_tipos, cant_tipos);
             printf("Sesion finalizada\n");
             
-            // FREE TODO
         } 
         else {
             printf("Entrada invalida, intente nuevamente.\n");
