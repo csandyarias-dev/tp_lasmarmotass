@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h> 
-#include "encabezadogeneral.h"
+#include "../inc/encabezadogeneral.h"
 
 void mostrar_tipos_animales(tipopac_t **vector_tipos, int *cant_tipos, int *ultimo_tipoID){
     int i;

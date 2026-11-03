@@ -5,11 +5,10 @@
 	\version 1.0.0
 */
 
-#include "m4funciones.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../encabezadogeneral.h"
+#include "../inc/encabezadogeneral.h"
 
 #define EXITO 0
 #define ERROR_MEM 1
@@ -80,39 +79,61 @@ int modificarResponsable(nodo_responsable_t ** primero, int * ultimo_ID_utilizad
 
     if (primero != NULL && *primero != NULL) {
         printf("Modificar por: 1-Nombre 2-ID : ");
-        scanf("%d", &opcion);
+        leer_entero(&opcion); 
 
         if (opcion == 1) {
             printf("Ingrese nombre: ");
-            scanf(" %[^\n]", nombre_buscado);
+            scanf("%[^\n]", nombre_buscado);
+            limpiar_buffer();
             actual = *primero;
-            while (actual != NULL) {
-                if (strcmp(actual->responsable.nombre, nombre_buscado) == 0) {
-                    coincidencias++;
-                    printf("ID: %d | %s %s\n", actual->responsable.responID, actual->responsable.nombre, actual->responsable.apellido);
-                }
-                actual = actual->sig;
-            }
-            if (coincidencias > 0) opcion = 2; 
+            coincidencias= ConsultarCoincidencias_ResponsableNombre(*primero, nombre_buscado, &actual);
+            
+            if (coincidencias==1) modificar_nodo_r(actual, primero); 
+            else if (coincidencias>1) opcion=2;
+            else printf("[Error] Nombre no encontrado.\n"); 
         }
 
         if (opcion == 2) {
             printf("Ingrese ID exacto a modificar: ");
-            scanf("%d", &id_buscado);
-            actual = *primero;
-            while (actual != NULL && estado == ERROR_MEM) {
-                if (actual->responsable.responID == id_buscado) {
-                    printf("Ingrese nuevo telefono: ");
-                    scanf("%lu", &actual->responsable.telcont);
-                    estado = EXITO;
-                }
-                actual = actual->sig;
-            }
-            if (estado == ERROR_MEM) printf("[Error] ID no encontrado.\n");
+            leer_entero(&id_buscado);
+            
+            coincidencias= ConsultarCoincidencias_ResponsableID(*primero, id_buscado, &actual);
+            
+            if (coincidencias==1) modificar_nodo_r(actual, primero); 
+            else if (coincidencias>1) opcion=2;
+			else printf("[Error] No se pudo modificar (ID no encontrado).\n");
         }
     }
     return estado;
 }
+
+int modificar_nodo_r(nodo_responsable_t * actual, nodo_responsable_t ** lista){
+	int campo, estado=ERROR; 
+	
+	printf("Que dato desea modificar? 1-Nombre 2-Apellido 3-Telefono: ");
+                    leer_entero(&campo);
+                    if (campo == 1) {
+                        printf("Ingrese nuevo nombre: ");
+                        scanf(" %[^\n]", actual->responsable.nombre);
+                        estado = EXITO;
+                    } 
+                    else if (campo == 2) {
+                        printf("Ingrese nuevo apellido: ");
+                        scanf(" %[^\n]", actual->responsable.apellido);
+                        limpiar_buffer();
+                        estado = EXITO;
+                    } 
+                    else if (campo == 3) {
+                        printf("Ingrese nuevo telefono: ");
+                        scanf("%lu", &actual->responsable.telcont);
+                        limpiar_buffer();
+                        estado = EXITO;
+                    } 
+                    else {
+                        printf("[Error] Campo invalido.\n");
+                    }
+     return estado;
+	}
 
 int eliminarResponsable(nodo_responsable_t ** primero, int * ultimo_ID_utilizado) {
     nodo_responsable_t * actual = NULL;

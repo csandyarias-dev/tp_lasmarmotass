@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "../encabezadogeneral.h"
+#include "../inc/encabezadogeneral.h"
 
 //-------------
 //-- Defines --

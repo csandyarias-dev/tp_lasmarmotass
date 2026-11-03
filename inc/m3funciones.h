@@ -15,7 +15,7 @@
 //-- Includes --
 //--------------
 
-#include "../encabezadogeneral.h"
+//#include "encabezadogeneral.h"
 
 //--------------
 //-- typedef --
@@ -79,7 +79,7 @@ int modificar_paciente(nodo_paciente_t ** primero, int * ultimo_ID_utilizado, ti
 	\param  nodo_paciente_t ** elegido 
 	\return int estado
 */
-int modificar_nodo(nodo_paciente_t * elegido);
+int modificar_nodo(nodo_paciente_t * actual, nodo_paciente_t ** lista);
 
 /**
 	\fn     int eliminarPaciente(nodo_paciente_t ** primero);
@@ -99,7 +99,7 @@ int eliminar_paciente(nodo_paciente_t ** primero, int * ultimo_ID_utilizado, tip
 	\param  nodo_paciente_t ** lista, nodo_paciente_t * actual, nodo_paciente_t * anterior
 	\return int estado
 */
-int eliminar_nodo(nodo_paciente_t ** lista, nodo_paciente_t * actual, nodo_paciente_t * anterior); 
+int eliminar_nodo(nodo_paciente_t ** lista, nodo_paciente_t * actual); 
 
 
 #endif

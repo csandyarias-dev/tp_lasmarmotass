@@ -6,9 +6,9 @@
 	\version 1.0.0
 */
 
-#include "m4funciones.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "../inc/encabezadogeneral.h"
 
 int m4menu(int * u_pac, int * ultimo_id, nodo_paciente_t ** pac, nodo_responsable_t ** lista, nodo_turnos_t ** tur, tipopac_t ** tipos, int * cant_t, int * u_tipo) {
     int continuar = 1;

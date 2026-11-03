@@ -1,6 +1,4 @@
-#include "../encabezadogeneral.h"
-#include "m5funciones.h"
-
+#include "../inc/encabezadogeneral.h"
 #include <stdio.h>
 
 int m5menu(int * u_pac, int * u_resp, nodo_paciente_t ** pac, nodo_responsable_t ** resp, nodo_turnos_t ** tur, tipopac_t ** vector_tipos, int * cant_tipos, int * ultimo_tipoID) {

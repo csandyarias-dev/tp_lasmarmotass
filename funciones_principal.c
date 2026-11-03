@@ -1,4 +1,4 @@
-#include "encabezadogeneral.h"
+#include "inc/encabezadogeneral.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>  
@@ -239,8 +239,8 @@ int comparar_fecha_hora(turnos_t a, turnos_t b) {
         resultado = a.fecha.bits1.dia - b.fecha.bits1.dia;
     } else if (a.hora.bits.am_pm != b.hora.bits.am_pm) {
         resultado = a.hora.bits.am_pm - b.hora.bits.am_pm;
-    } else if (a.hora.bits.hora != b.hora.bits.hora) {
-        resultado = a.hora.bits.hora - b.hora.bits.hora;
+    } else if ((a.hora.bits.hora%12) != (b.hora.bits.hora%12)) {
+        resultado = a.hora.bits.hora%12 - b.hora.bits.hora%12;
     } else {
         resultado = a.hora.bits.min - b.hora.bits.min;
     }

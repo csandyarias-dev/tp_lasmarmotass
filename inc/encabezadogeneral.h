@@ -130,10 +130,10 @@ int m5menu(int * u_pac, int * u_resp, nodo_paciente_t ** pac, nodo_responsable_t
 //-- Includes --
 //--------------
 
-#include "MENU_1/m1funciones.h"
-#include "MENU_3/m3funciones.h"
-#include "MENU_4/m4funciones.h"
-#include "MENU_5/m5funciones.h"
+#include "inc/m1funciones.h"
+#include "inc/m3funciones.h"
+#include "inc/m4funciones.h"
+#include "inc/m5funciones.h"
 
 
 //----------------

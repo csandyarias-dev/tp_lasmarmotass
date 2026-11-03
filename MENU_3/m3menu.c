@@ -15,8 +15,8 @@
 //--------------
 //-- Includes --
 //--------------
-#include "m3funciones.h"
-#include "../encabezadogeneral.h"
+
+#include "../inc/encabezadogeneral.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

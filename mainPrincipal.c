@@ -14,7 +14,7 @@
 //--------------
 //-- Includes --
 //--------------
-#include "encabezadogeneral.h"
+#include "inc/encabezadogeneral.h"
 #include <stdio.h>
 #include <unistd.h>  
 #include <signal.h>  
@@ -55,7 +55,7 @@ int main(int cant, char * arg[]) {
     signal(SIGALRM, alarma_handler); 
     alarm(120);
 	
-    if(importar_desde_archivo(&ultimo_id_pac, &ultimo_id_resp, &primero_pac, &primero_resp, &primero_turnos, &vector_tipos, &cant_tipos, &ultimo_id_tipo)) printf("Archivos cargados con exito");
+    if(importar_desde_archivo(&ultimo_id_pac, &ultimo_id_resp, &primero_pac, &primero_resp, &primero_turnos, &vector_tipos, &cant_tipos, &ultimo_id_tipo)==OK) printf("Archivos cargados con exito");
 	else (printf("Error"));
 	
     while (continuar) {

@@ -17,8 +17,7 @@
 //--------------
 #include <stdio.h>
 #include <stdlib.h>
-#include "../encabezadogeneral.h"
-#include "m1funciones.h"
+#include "../inc/encabezadogeneral.h"
 
 enum m1{pac_id=1, pac_nombre, responsable_id, responsable_nombre, turnos_pacientes, turnos_responsables, turnos_fecha, listado_pacientes, listado_responsables, volver};
 

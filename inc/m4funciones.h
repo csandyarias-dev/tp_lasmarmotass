@@ -13,7 +13,7 @@
 //-- Includes --
 //--------------
 
-#include "../encabezadogeneral.h"
+//#include "encabezadogeneral.h"
 
 
 //--------------
@@ -54,6 +54,16 @@ int anadirordenado_r(nodo_responsable_t ** primero, responsable_t nuevo);
 	\return int estado
 */
 int modificarResponsable(nodo_responsable_t ** primero, int * ultimo_ID_utilizado);
+
+/**
+	\fn     int modificar_nodo_r(nodo_responsable_t * actual, nodo_responsable_t ** lista);
+	\brief  Se modifica un responsable del nodo
+	\author Grupo Las Marmotas
+	\date   2026.09.02
+	\param  nodo_responsable_t * actual, nodo_responsable_t ** lista
+	\return int estado
+*/
+int modificar_nodo_r(nodo_responsable_t * actual, nodo_responsable_t ** lista);
 
 /**
 	\fn     int eliminarResponsable(nodo_responsable_t ** primero);
